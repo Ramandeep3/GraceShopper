@@ -1,92 +1,135 @@
 const { client } = require("./client");
-async function createTables() {
-    try {
-        await client.query(`
-     CREATE TABLE users(
-         id SERIAL PRIMARY KEY,
-         email VARCHAR(255 UNIQUE NOT NULL,
-         username VARCHAR(255) UNIQUE NOT NULL,
-         password VARCHAR(255) NOT NULL,
-         "isAdmin" BOOLEAN DEFAULT FALSE
-         );
-     CREATE TABLE plants(
-             id SERIAL PRIMARY KEY,
-             category VARCHAR(255) NOT NULL,
-             title VARCHAR(255) NOT NULL,
-             description TEXT NOT NULL,
-             price FLOAT NOT NULL,
-             "imageURL" VARCHAR(255)
-         );
-         CREATE TABLE orders(
-            id SERIAL PRIMARY KEY,
-            "userId" INTEGER REFERENCES users(id),
-            "productId" INTEGER REFERENCES products(id),
-            count INTEGER NOT NULL, 
-            "orderStatus" VARCHAR(255) NOT NULL,
-            "orderCreated" DATE NOT NULL 
-         );
-         CREATE TABLE reviews (
-            id SERIAL PRIMARY KEY,
-            "userId" INTEGER REFERENCES users(id),
-            "productId" INTEGER REFERENCES products(id),
-            review TEXT NOT NULL
-        );
+const {
+  createUser,
+  getAllUsers,
+  getUserByEmail,
+  getUserById,
+  updateUser,
+  getUserByUsername,
+} = require("./users");
 
-       `);
+async function buildTables() {
+  try {
+    // drop tables in correct order
+    console.log("Starting to drop tables...");
+    client.query(`
+      DROP TABLE IF EXISTS users;
+    `);
+    console.log("Finished dropping tables!");
 
-    } catch (error) {
-        console.log("error building tables"); 
-        throw error;
-    }
+    // build tables in correct order
+    console.log("Starting to build tables...");
+
+    await client.query(`
+  
+      CREATE TABLE users(
+          id SERIAL PRIMARY KEY,
+          email VARCHAR(255) UNIQUE,
+          username VARCHAR(255) UNIQUE,
+          password VARCHAR(255),
+          address VARCHAR(255) NOT NULL,
+          city VARCHAR(255) NOT NULL,
+          state VARCHAR(255) NOT NULL,
+          zip VARCHAR(255) NOT NULL,
+          "isAdmin" BOOLEAN DEFAULT false,
+          "isUser" BOOLEAN DEFAULT false
+       );
+    `);
+    console.log("Finished building tables!");
+  } catch (error) {
+    throw error;
+  }
 }
 
-// SEED DATA
-async function createInitialUsers() {
-    console.log("Starting to create users...");
-    try {
-        const usersToCreate=[{
-            name:"Ryan",
-            email:"sneakerhead123@gmail.com",
-            password:"joe123",
-            admin:false
-        },
-    {
-        name: "Michelle",
-        email: "michelle@admin.com",
-        password: "admin123",
-        admin: true
-
-    },
-{
-    name: "Rashon",
-    email: "rashon@admin.com",
-    password: "admin456",
-    admin: true
-},
-{
-    name: "Nick",
-    email: "nick@admin.com",
-    password: "admin789",
-    admin: true
-
-}]
-const users=await Promise.all(usersToCreate.map(createuser));
-console.log("users created:");
-console.log(users);
-console.log('Finshed creating users!')
-    }catch(error){
-        console.error("Error creating users!");
-        throw error;  
-
-    }
+async function addInitialUsers() {
+  try {
+    console.log("starting to create users...");
+    const usersToCreate = [
+      {
+        email: "jeffereyfitzpatrick@gmail.com",
+        name: "Jefferey Fitzpatrick",
+        password: "Testing1LastTime",
+        username: "JFitz447",
+        address: "600 JK court",
+        city: "SomeCity",
+        state: "NC",
+        zip: "04576",
+        isAdmin: true,
+      },
+      {
+        email: "johnDope@gmail.com",
+        name: "John Dope",
+        password: "NotThatDopey",
+        username: "dopeyThe7th",
+        address: "4321 Dopeback rd",
+        city: "Noplace",
+        state: "SC",
+        zip: "54321",
+      },
+      {
+        email: "john.doe@gmail.com",
+        name: "John Doe",
+        password: "JDoe4Life",
+        username: "BigBadDoe",
+        address: "1234 Back Woods ln",
+        city: "Somewhere",
+        state: "TN",
+        zip: "12345",
+      },
+    ];
+    const users = await Promise.all(usersToCreate.map(createUser));
+    console.log("User Created: ", users);
+    console.log("Finished creating users.");
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function rebuildDB() {
-
+  try {
+    client.connect();
+    await buildTables();
+    console.log("RDB Tables finished");
+    await addInitialUsers();
+    console.log("Int users added");
+  } catch (error) {
+    console.log("Error during rebuildDB");
+    throw error;
+  }
 }
+
 async function testDB() {
-
+  try {
+    console.log("starting to build tables in rebuildDB");
+    await buildTables();
+    console.log("finished build of tables in rebuildDB");
+    console.log("starting to add initial users in rebuildDB");
+    await addInitialUsers();
+    console.log("finished adding initial users in rebuildDB");
+    console.log("calling getAllUsers");
+    const users = await getAllUsers();
+    console.log("get All users Result:", users);
+    console.log("Calling getUserByEmail with [1]");
+    const singleEmail = await getUserByEmail(users[1].email);
+    console.log("Results for user by email:", singleEmail);
+    console.log("Calling getUserById with [1]");
+    const singleUser = await getUserById(1);
+    console.log("Result for user by id:", singleUser);
+    console.log("Calling update user");
+    const updatedUserData = await updateUser(users[0].id, {
+      username: "Jfitz447",
+    });
+    console.log("Results for updatedUserData:", updatedUserData);
+    console.log("Calling getUserByUsername with 1");
+    const username = await getUserByUsername(users[1].username);
+    console.log("Results for getUserByUsername:", username);
+  } catch (error) {
+    console.log("Error during rebuildDB");
+    throw error;
+  }
 }
+
 rebuildDB()
-    .then(testDB)
-    .catch(console.error)
-    .finally(() => client.end());
+  .then(testDB)
+  .catch(console.error)
+  .finally(() => client.end());
