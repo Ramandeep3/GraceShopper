@@ -1,11 +1,10 @@
 import "./App.css";
+import HomeScreen from "./components/homescreen";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>Blank Home screen in src/app.js</p>
-      </header>
+      <HomeScreen />
     </div>
   );
 }
