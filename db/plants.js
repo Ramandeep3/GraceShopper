@@ -1,16 +1,19 @@
 const {client}=require("./client")
-async function createPlants({name,description,price,quantity,type}){
+async function createPlants({name,description,price,quantity,type,imageURL}){
+   
+   console.log("anything")
+   
     try{
     const{rows:[plants],
     }=await client.query(
         `
-    INSERT INTO plants(name,description,price,quantity,type)
-    VALUES($1, $2, $3, $4, $5)
+    INSERT INTO plants(name,description,price,quantity,type,"imageURL")
+    VALUES($1, $2, $3, $4, $5,$6)
     RETURNING *;
-     `, [name,description,price,quantity,type]
+     `, [name,description,price,quantity,type,imageURL]
      );
 
-     
+     console.log(plants,"my plants")
      return plants;
 }
 
@@ -27,6 +30,7 @@ async function getAllPlants(){
         const{rows}=await client.query(`
         SELECT * FROM plants;
         `);
+        
         return rows;
 }catch(error){
 console.log("could not get all plants");
@@ -52,19 +56,20 @@ async function getPlantById(plant_id){
     }
 
 }
-async function updatePlant(plant_id,fields={}){
+async function updatePlant(plantId,fields={}){
 
+    console.log(plantId,fields,"hello")
     const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
-    
+    console.log(setString)
     try{
         if (setString.length>0){
             await client.query(
                `
                UPDATE plants
                 SET ${setString}
-                WHERE id=${plant_id}
+                WHERE id=${plantId}
                 RETURNING *;
 
                 ` ,
@@ -72,7 +77,7 @@ async function updatePlant(plant_id,fields={}){
                 );
         }
 
-return await getPlantById(plant_id);
+// return await getPlantById(plant_id);
 
     }catch(error){}
 

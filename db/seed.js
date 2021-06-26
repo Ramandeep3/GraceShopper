@@ -23,8 +23,9 @@ async function buildTables() {
     // drop tables in correct order
     console.log("Starting to drop tables...");
     client.query(`
-      DROP TABLE IF EXISTS users;
+      DROP TABLE IF EXISTS orders;
       DROP TABLE IF EXISTS plants;
+      DROP TABLE IF EXISTS users;
     `);
     console.log("Finished dropping tables!");
 
@@ -49,12 +50,23 @@ async function buildTables() {
            id SERIAL PRIMARY KEY,
            name VARCHAR(30) UNIQUE,
            description VARCHAR(255),
-           price INTEGER,
+           price MONEY,
            quantity INTEGER,
            type VARCHAR(255) NOT NULL,
-           stock_qty INTEGER DEFAULT 0
+           stock_qty INTEGER DEFAULT 0,
+           "imageURL" VARCHAR(255)
+           
 
-       )
+       );
+       CREATE TABLE orders(
+        id SERIAL PRIMARY KEY,
+        "userId" INTEGER REFERENCES users(id),
+        "productId" INTEGER REFERENCES plants(id),
+        count INTEGER NOT NULL, 
+        "orderStatus" VARCHAR(255) NOT NULL,
+        "orderCreated" DATE NOT NULL 
+     );
+ 
     `);
     console.log("Finished building tables!");
   } catch (error) {
@@ -135,11 +147,12 @@ const plantsToCreate=[
         price:15.99,
         quantity:2,
         type:"indoor plant",
-        stock_qty:30
+        stock_qty:30,
+        
     },
 ];
 const plants=await Promise.all(
-    plantsToCreate.map(createPlant)
+    plantsToCreate.map(createPlants)
 );
 console.log("Plants Created:");
 console.log(plants);
@@ -173,7 +186,7 @@ async function rebuildDB() {
 async function testDB() {
   try {
     console.log("starting to build tables in rebuildDB");
-    await buildTables();
+    // await buildTables();
     console.log("finished build of tables in rebuildDB");
     console.log("starting to add initial users in rebuildDB");
     await addInitialUsers();
@@ -207,8 +220,9 @@ async function testDB() {
     console.log("Result:",plantByType);
 
 
-    console.log("Calling updatePlant");
-    const updatePlant1=await updatePlant(plants[0].id,{
+    console.log("Calling updatePlant",plants[1].id);
+
+    const updatePlant1=await updatePlant(plants[1].id,{
         name:"New rose flower",
         description:"updated"
     })
