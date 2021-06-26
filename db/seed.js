@@ -8,6 +8,16 @@ const {
   getUserByUsername,
 } = require("./users");
 
+const {
+  createPlants,
+  getPlantById,
+  getAllPlants,
+
+  getPlantByName,
+  getPlantByType,
+  updatePlant,
+} = require("./plants");
+
 async function buildTables() {
   try {
     // drop tables in correct order
@@ -37,21 +47,26 @@ async function buildTables() {
           "isUser" BOOLEAN DEFAULT false
        );
        CREATE TABLE plants(
+           id SERIAL PRIMARY KEY,
+           name VARCHAR(30) UNIQUE,
+           description VARCHAR(255),
+           price MONEY,
+           quantity INTEGER,
+           type VARCHAR(255) NOT NULL,
+           stock_qty INTEGER DEFAULT 0,
+           "imageURL" VARCHAR(255)
+           
+
+       );
+       CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
-        category VARCHAR(255) NOT NULL,
-        title VARCHAR(255) NOT NULL,
-        description VARCHAR(255) NOT NULL,
-        price MONEY NOT NULL,
-        "imageURL" VARCHAR(255)
-    );
-    CREATE TABLE orders(
-       id SERIAL PRIMARY KEY,
-       "userId" INTEGER REFERENCES users(id),
-       "productId" INTEGER REFERENCES plants(id),
-       count INTEGER NOT NULL, 
-       "orderStatus" VARCHAR(255) NOT NULL,
-       "orderCreated" DATE NOT NULL 
-    );
+        "userId" INTEGER REFERENCES users(id),
+        "productId" INTEGER REFERENCES plants(id),
+        count INTEGER NOT NULL, 
+        "orderStatus" VARCHAR(255) NOT NULL,
+        "orderCreated" DATE NOT NULL 
+     );
+ 
     `);
     console.log("Finished building tables!");
   } catch (error) {
@@ -103,6 +118,47 @@ async function addInitialUsers() {
   }
 }
 
+async function addInitialPlants() {
+  try {
+    console.log("Starting to create plants...");
+    const plantsToCreate = [
+      {
+        id: 1,
+        name: "roses",
+        description: "roses symbolize gratitude, grace, admiration, and joy.",
+        price: 5.99,
+        quantity: 8,
+        type: "flower",
+        stock_qty: 50,
+      },
+      {
+        id: 2,
+        name: "oranges",
+        description: "Orange, Citrus sinensis, is an evergreen tree",
+        price: 10.99,
+        quantity: 1,
+        type: "fruit",
+        stock_qty: 40,
+      },
+      {
+        id: 3,
+        name: "parlor palms",
+        description: "Easy to grow",
+        price: 15.99,
+        quantity: 2,
+        type: "indoor plant",
+        stock_qty: 30,
+      },
+    ];
+    const plants = await Promise.all(plantsToCreate.map(createPlants));
+    console.log("Plants Created:");
+    console.log(plants);
+    console.log("Finished creating plants!");
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function rebuildDB() {
   try {
     client.connect();
@@ -110,6 +166,8 @@ async function rebuildDB() {
     console.log("RDB Tables");
     await addInitialUsers();
     console.log("Int users added");
+    await addInitialPlants();
+    console.log("plants added");
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
@@ -141,6 +199,27 @@ async function testDB() {
     console.log("Calling getUserByUsername with 1");
     const username = await getUserByUsername(users[1].username);
     console.log("Results for getUserByUsername:", username);
+
+    console.log("Starting to test plants...");
+    console.log("Calling get AllPlants");
+    const plants = await getAllPlants();
+    console.log("Result:", plants);
+
+    console.log("Calling getProductByType");
+    const plantByType = await getPlantByType("roses");
+    console.log("Result:", plantByType);
+
+    console.log("Calling updatePlant", plants[1].id);
+
+    const updatePlant1 = await updatePlant(plants[1].id, {
+      name: "New rose flower",
+      description: "updated",
+    });
+    console.log("Result:", updatePlant1);
+
+    console.log("Calling getPlantById with 1");
+    const singlePlant = await getPlantById(1);
+    console.log("Result:", singlePlant);
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
