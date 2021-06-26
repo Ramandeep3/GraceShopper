@@ -13,6 +13,8 @@ async function buildTables() {
     // drop tables in correct order
     console.log("Starting to drop tables...");
     client.query(`
+      DROP TABLE IF EXISTS orders;
+      DROP TABLE IF EXISTS plants;
       DROP TABLE IF EXISTS users;
     `);
     console.log("Finished dropping tables!");
@@ -34,6 +36,22 @@ async function buildTables() {
           "isAdmin" BOOLEAN DEFAULT false,
           "isUser" BOOLEAN DEFAULT false
        );
+       CREATE TABLE plants(
+        id SERIAL PRIMARY KEY,
+        category VARCHAR(255) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        description VARCHAR(255) NOT NULL,
+        price MONEY NOT NULL,
+        "imageURL" VARCHAR(255)
+    );
+    CREATE TABLE orders(
+       id SERIAL PRIMARY KEY,
+       "userId" INTEGER REFERENCES users(id),
+       "productId" INTEGER REFERENCES plants(id),
+       count INTEGER NOT NULL, 
+       "orderStatus" VARCHAR(255) NOT NULL,
+       "orderCreated" DATE NOT NULL 
+    );
     `);
     console.log("Finished building tables!");
   } catch (error) {
@@ -89,7 +107,7 @@ async function rebuildDB() {
   try {
     client.connect();
     await buildTables();
-    console.log("RDB Tables finished");
+    console.log("RDB Tables");
     await addInitialUsers();
     console.log("Int users added");
   } catch (error) {
@@ -101,7 +119,7 @@ async function rebuildDB() {
 async function testDB() {
   try {
     console.log("starting to build tables in rebuildDB");
-    await buildTables();
+    // await buildTables();
     console.log("finished build of tables in rebuildDB");
     console.log("starting to add initial users in rebuildDB");
     await addInitialUsers();
