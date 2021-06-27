@@ -120,7 +120,6 @@ async function getPlantByType(type) {
 //         const plantId=getPlantById(id);
 //         if (!plantId){
 //             throw new error({message:"this plant doe not exist"})
-
 //             const {rows:[plant]}=await client.query(`
 
 //             DELETE FROM plants
