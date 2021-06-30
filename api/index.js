@@ -6,7 +6,7 @@ const { getUserById } = require("../db");
 const apiRouter = express.Router();
 const usersRouter = require("./users");
 const plantsRouter = require("./plants");
-const ordersRouter = require("./orders");
+const cartRouter = require("./cart");
 
 apiRouter.use(async (req, res, next) => {
   const prefix = "Bearer ";
@@ -37,7 +37,7 @@ apiRouter.use(async (req, res, next) => {
 
 apiRouter.use("/users", usersRouter);
 apiRouter.use("/plants", plantsRouter);
-apiRouter.use("/orders", ordersRouter);
+apiRouter.use("/orders", cartRouter);
 
 apiRouter.use((error, req, res, next) => {
   res.send(error);
