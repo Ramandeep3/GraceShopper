@@ -8,15 +8,15 @@ const {
   getUserByUsername,
 } = require("./users");
 
-const{
-    createPlants,
-    getPlantById,
-    getAllPlants,
-   
-    getPlantByName,
-    getPlantByType, 
-    updatePlant
-}=require("./plants")
+const {
+  createPlants,
+  getPlantById,
+  getAllPlants,
+
+  getPlantByName,
+  getPlantByType,
+  updatePlant,
+} = require("./plants");
 
 const{addPlantToCart,}=require("./cart")
 
@@ -120,118 +120,62 @@ async function addInitialUsers() {
   }
 }
 
-async function addInitialPlants(){
-try{
-console.log("Starting to create plants...");
-const plantsToCreate=[
-    {
-        id:1,
-        name:"roses",
-        description:"roses symbolize gratitude, grace, admiration, and joy.",
-        price:5.99,
-        quantity:8,
-        type:"flower",
-        stock_qty:50,
-        imageURL:"https://www.pexels.com/photo/delicate-red-roses-growing-in-garden-near-fence-4915974/"
-    },
-    {
-        id:2,
-        name:"oranges",
-        description:"Orange, Citrus sinensis, is an evergreen tree",
-        price:10.99,
-        quantity:1,
-        type:"fruit",
-        stock_qty:40,
-        imageURL:"https://www.pexels.com/photo/photo-of-orange-tree-under-the-sun-3541364/"
-    },
-    {
-        id:3,
-        name:"parlor palms",
-        description:"Easy to grow",
-        price:15.99,
-        quantity:2,
-        type:"indoor plant",
-        stock_qty:30,
-        imageURL:"https://www.pexels.com/photo/potted-plant-near-dressing-table-with-pouf-6265938/"
-        
-    },
-];
-const plants=await Promise.all(
-    plantsToCreate.map(createPlants)
-);
-console.log("Plants Created:");
-console.log(plants);
-console.log("Finished creating plants!");
-
-
-}catch(error){
-    throw error
-
-}
-
-
-}
-
-
-// async function createInitialOrders(){
-//   try{
-// console.log("starting to crate orders.......");
-// const ordersToCreate=[
-//   {
-//     userId:1,
-//     plant_id:2,
-//     count :3,
-//     orderStatus :"created",
-//     orderCreated :"2021-06-25"
-
-//   },
-// {
-//   userId:2,
-//   plant_id:3,
-//   count :1,
-//   orderStatus :"created",
-//   orderCreated :"2021-04-25"
-// },
-
-// {
-
-//   userId:3,
-//   plant_id:1,
-//   count :4,
-//     orderStatus :"created",
-//     orderCreated :"2021-05-25"
-// },
-
-
-// ];
-
-// console.log("hello")
-// // const theOrders = await Promise.all(
-// //   ordersToCreate.map((order) => createOrder(order))
-// const orders = await Promise.all(ordersToCreate.map(createOrder));
-
-
-// console.log("orders Created:",orders)
-// console.log("Finished creating orders")
-
-
-
-//   }catch(error){
-
-//     throw error;
-
-//   }
-// }
-
-
-async function createInitialCarts() {
+async function addInitialPlants() {
   try {
-      // under construction...
-      console.log(">>>>>Finished creating initial carts!");
-  }
-  catch(error) {
-      console.error("Error creating initial carts. Error: ", error);
-      throw error;
+    console.log("Starting to create plants...");
+    const plantsToCreate = [
+      {
+        id: 1,
+        name: "Red Rose Plant",
+        description: "roses symbolize gratitude, grace, admiration, and joy.",
+        price: 25.99,
+        quantity: 1,
+        type: "flower",
+        stock_qty: 50,
+        imageURL:
+          "https://thumbs.dreamstime.com/b/rose-plant-miniature-red-flowers-red-plastic-pot-isolated-against-white-61525704.jpg",
+      },
+      {
+        id: 2,
+        name: "oranges",
+        description: "Orange, Citrus sinensis, is an evergreen tree",
+        price: 35.99,
+        quantity: 1,
+        type: "fruit",
+        stock_qty: 40,
+        imageURL:
+          "https://thumbs.dreamstime.com/b/orange-tree-against-white-background-14184672.jpg",
+      },
+      {
+        id: 3,
+        name: "parlor palms",
+        description: "Easy to grow",
+        price: 19.99,
+        quantity: 1,
+        type: "indoor plant",
+        stock_qty: 30,
+        imageURL:
+          "https://thumbs.dreamstime.com/b/beautiful-parlor-palm-white-ceramic-pot-beautiful-parlor-palm-white-ceramic-pot-reflection-white-background-119532631.jpg",
+      },
+      {
+        id: 4,
+        name: "Succulents",
+        description:
+          "All cactus are succulents but not all succulents are cactus. To keep it simple, perhaps the best way to think of succulents is to think of them as plants that store water in their tissues.",
+        price: 42.99,
+        quantity: 1,
+        type: "indoor plant",
+        stock_qty: 30,
+        imageURL:
+          "https://images.pexels.com/photos/6803/light-rocks-pot-white.jpg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
+      },
+    ];
+    const plants = await Promise.all(plantsToCreate.map(createPlants));
+    console.log("Plants Created:");
+    console.log(plants);
+    console.log("Finished creating plants!");
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -239,7 +183,7 @@ async function rebuildDB() {
   try {
     client.connect();
     await buildTables();
-    console.log("RDB Tables finished");
+    console.log("RDB Tables");
     await addInitialUsers();
     console.log("Int users added");
     await addInitialPlants();
@@ -281,53 +225,27 @@ async function testDB() {
     console.log("Calling getUserByUsername with 1");
     const username = await getUserByUsername(users[1].username);
     console.log("Results for getUserByUsername:", username);
-   
-   
+
     console.log("Starting to test plants...");
     console.log("Calling get AllPlants");
-    const plants=await getAllPlants();
-    console.log("Result:",plants);
+    const plants = await getAllPlants();
+    console.log("Result:", plants);
 
     console.log("Calling getProductByType");
-    const plantByType=await getPlantByType("roses"); 
-    console.log("Result:",plantByType);
+    const plantByType = await getPlantByType("roses");
+    console.log("Result:", plantByType);
 
+    console.log("Calling updatePlant", plants[1].id);
 
-    console.log("Calling updatePlant",plants[1].id);
-
-    const updatePlant1=await updatePlant(plants[1].id,{
-        name:"New rose flower",
-        description:"updated"
-    })
-    console.log("Result:",updatePlant1);
-
-
+    const updatePlant1 = await updatePlant(plants[1].id, {
+      name: "New rose flower",
+      description: "updated",
+    });
+    console.log("Result:", updatePlant1);
 
     console.log("Calling getPlantById with 1");
-    const singlePlant=await getPlantById(1);
-    console.log("Result:",singlePlant);
-
-
-    console.log("Calling addPlantToCart");
-    const userWithProduct = await addPlantToCart(2, 3, 1);
-    console.log("Result:", userWithProduct);
-
-    console.log("Calling addPlantToCart Again");
-    const userWithSecondProduct = await addPlantToCart(2, 1, 2);
-    console.log("Result:", userWithSecondProduct);
-
-    // console.log("Calling createUserOrder");
-    // const UserOrder=await createOrder();
-    // console.log("Results:",UserOrder);
-
-    // console.log("Calling getAllorders");
-    //     const theOrders = await getAllOrders()
-    //     console.log(theOrders, "hello we are there")
-
-    //     const orderId = await getOrderById(2)
-    //     console.log(orderId, "hello we are here")
-    console.log("Finished database tests!");
-
+    const singlePlant = await getPlantById(1);
+    console.log("Result:", singlePlant);
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
