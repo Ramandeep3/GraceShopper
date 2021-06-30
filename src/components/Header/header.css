@@ -1,0 +1,14 @@
+.header-content {
+  padding-left: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.mr-auto {
+  margin-left: 5px;
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
