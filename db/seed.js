@@ -143,30 +143,48 @@ async function addInitialPlants() {
     const plantsToCreate = [
       {
         id: 1,
-        name: "roses",
+        name: "Red Rose Plant",
         description: "roses symbolize gratitude, grace, admiration, and joy.",
-        price: 5.99,
-        quantity: 8,
+        price: 25.99,
+        quantity: 1,
         type: "flower",
         stock_qty: 50,
+        imageURL:
+          "https://thumbs.dreamstime.com/b/rose-plant-miniature-red-flowers-red-plastic-pot-isolated-against-white-61525704.jpg",
       },
       {
         id: 2,
         name: "oranges",
         description: "Orange, Citrus sinensis, is an evergreen tree",
-        price: 10.99,
+        price: 35.99,
         quantity: 1,
         type: "fruit",
         stock_qty: 40,
+        imageURL:
+          "https://thumbs.dreamstime.com/b/orange-tree-against-white-background-14184672.jpg",
       },
       {
         id: 3,
         name: "parlor palms",
         description: "Easy to grow",
-        price: 15.99,
-        quantity: 2,
+        price: 19.99,
+        quantity: 1,
         type: "indoor plant",
         stock_qty: 30,
+        imageURL:
+          "https://thumbs.dreamstime.com/b/beautiful-parlor-palm-white-ceramic-pot-beautiful-parlor-palm-white-ceramic-pot-reflection-white-background-119532631.jpg",
+      },
+      {
+        id: 4,
+        name: "Succulents",
+        description:
+          "All cactus are succulents but not all succulents are cactus. To keep it simple, perhaps the best way to think of succulents is to think of them as plants that store water in their tissues.",
+        price: 42.99,
+        quantity: 1,
+        type: "indoor plant",
+        stock_qty: 30,
+        imageURL:
+          "https://images.pexels.com/photos/6803/light-rocks-pot-white.jpg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
       },
     ];
     const plants = await Promise.all(plantsToCreate.map(createPlants));

@@ -8,3 +8,12 @@ export async function getSomething() {
     throw error;
   }
 }
+export async function getAllPlants() {
+  try {
+    const { data } = await axios.get("/api/plants");
+    console.log(data, "HHHHHHHHHH");
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
