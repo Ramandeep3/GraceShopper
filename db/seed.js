@@ -12,11 +12,12 @@ const {
   createPlants,
   getPlantById,
   getAllPlants,
-
   getPlantByName,
   getPlantByType,
   updatePlant,
 } = require("./plants");
+
+const { addToCart, getCartByUsername } = require("./cart");
 
 async function buildTables() {
   try {
@@ -66,6 +67,14 @@ async function buildTables() {
         "orderStatus" VARCHAR(255) NOT NULL,
         "orderCreated" DATE NOT NULL 
      );
+     CREATE TABLE cart(
+      id SERIAL PRIMARY KEY,
+      "userId" INTEGER REFERENCES users(id),
+      "productId" INTEGER REFERENCES plants(id),
+      price MONEY,
+      quantity INTEGER,
+      "imageURL" VARCHAR(255) REFERNECES plants("imageURL"),
+      );
  
     `);
     console.log("Finished building tables!");
@@ -108,6 +117,16 @@ async function addInitialUsers() {
         city: "Somewhere",
         state: "TN",
         zip: "12345",
+      },
+      {
+        email: "The.MF.Greatest@gmail.com",
+        name: "The Greatest",
+        password: "elGreat",
+        username: "TheGreatestMF",
+        address: "9999 Throne Room",
+        city: "Atlantis",
+        state: "Earth",
+        zip: "98765",
       },
     ];
     const users = await Promise.all(usersToCreate.map(createUser));
@@ -176,12 +195,12 @@ async function rebuildDB() {
 
 async function testDB() {
   try {
-    console.log("starting to build tables in rebuildDB");
-    // await buildTables();
-    console.log("finished build of tables in rebuildDB");
-    console.log("starting to add initial users in rebuildDB");
-    await addInitialUsers();
-    console.log("finished adding initial users in rebuildDB");
+    // console.log("starting to build tables in rebuildDB");
+    // // await buildTables();
+    // console.log("finished build of tables in rebuildDB");
+    // console.log("starting to add initial users in rebuildDB");
+    // await addInitialUsers();
+    // console.log("finished adding initial users in rebuildDB");
     console.log("calling getAllUsers");
     const users = await getAllUsers();
     console.log("get All users Result:", users);
@@ -220,6 +239,34 @@ async function testDB() {
     console.log("Calling getPlantById with 1");
     const singlePlant = await getPlantById(1);
     console.log("Result:", singlePlant);
+
+    console.log("Calling getUserByUsername with 3");
+    const usernameofThree = "TheGreatestMF";
+    const usernameThree = await getUserByUsername(usernameofThree);
+    console.log("Results for getUserByUsername Three:", usernameThree);
+
+    console.log("Calling First addToCart");
+    const userCartOne = await addToCart(
+      usernameThree.username,
+      plants[0].id,
+      2,
+      "something",
+      "2021-07-04"
+    );
+    console.log("Result of First Cart Test:", userCartOne);
+
+    console.log("Calling Second addToCart");
+    const userCartTwo = await addToCart(
+      usernameThree.username,
+      plants[1].id,
+      5.99,
+      5,
+      "2021-06-04"
+    );
+    console.log("Result of Second Cart Test:", userCartTwo);
+
+    const userCart = await getCartByUsername(usernameofThree);
+    console.log("Result of User Cart:", userCart);
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
