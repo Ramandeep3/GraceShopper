@@ -18,11 +18,19 @@ const{
     updatePlant
 }=require("./plants")
 
+const{addPlantToCart,}=require("./cart")
+
+// const {createOrder,getAllOrders,
+//   getOrderById,
+//   addCartToUserOrders}=require("./orders")
+
 async function buildTables() {
   try {
     // drop tables in correct order
     console.log("Starting to drop tables...");
     client.query(`
+      DROP TABLE IF EXISTS cart_products;
+      DROP TABLE IF EXISTS cart;
       DROP TABLE IF EXISTS orders;
       DROP TABLE IF EXISTS plants;
       DROP TABLE IF EXISTS users;
@@ -58,15 +66,9 @@ async function buildTables() {
            
 
        );
-       CREATE TABLE orders(
-        id SERIAL PRIMARY KEY,
-        "userId" INTEGER REFERENCES users(id),
-        "productId" INTEGER REFERENCES plants(id),
-        count INTEGER NOT NULL, 
-        "orderStatus" VARCHAR(255) NOT NULL,
-        "orderCreated" DATE NOT NULL 
-     );
- 
+       
+       
+
     `);
     console.log("Finished building tables!");
   } catch (error) {
@@ -129,7 +131,8 @@ const plantsToCreate=[
         price:5.99,
         quantity:8,
         type:"flower",
-        stock_qty:50
+        stock_qty:50,
+        imageURL:"https://www.pexels.com/photo/delicate-red-roses-growing-in-garden-near-fence-4915974/"
     },
     {
         id:2,
@@ -138,7 +141,8 @@ const plantsToCreate=[
         price:10.99,
         quantity:1,
         type:"fruit",
-        stock_qty:40
+        stock_qty:40,
+        imageURL:"https://www.pexels.com/photo/photo-of-orange-tree-under-the-sun-3541364/"
     },
     {
         id:3,
@@ -148,6 +152,7 @@ const plantsToCreate=[
         quantity:2,
         type:"indoor plant",
         stock_qty:30,
+        imageURL:"https://www.pexels.com/photo/potted-plant-near-dressing-table-with-pouf-6265938/"
         
     },
 ];
@@ -168,6 +173,68 @@ console.log("Finished creating plants!");
 }
 
 
+// async function createInitialOrders(){
+//   try{
+// console.log("starting to crate orders.......");
+// const ordersToCreate=[
+//   {
+//     userId:1,
+//     plant_id:2,
+//     count :3,
+//     orderStatus :"created",
+//     orderCreated :"2021-06-25"
+
+//   },
+// {
+//   userId:2,
+//   plant_id:3,
+//   count :1,
+//   orderStatus :"created",
+//   orderCreated :"2021-04-25"
+// },
+
+// {
+
+//   userId:3,
+//   plant_id:1,
+//   count :4,
+//     orderStatus :"created",
+//     orderCreated :"2021-05-25"
+// },
+
+
+// ];
+
+// console.log("hello")
+// // const theOrders = await Promise.all(
+// //   ordersToCreate.map((order) => createOrder(order))
+// const orders = await Promise.all(ordersToCreate.map(createOrder));
+
+
+// console.log("orders Created:",orders)
+// console.log("Finished creating orders")
+
+
+
+//   }catch(error){
+
+//     throw error;
+
+//   }
+// }
+
+
+async function createInitialCarts() {
+  try {
+      // under construction...
+      console.log(">>>>>Finished creating initial carts!");
+  }
+  catch(error) {
+      console.error("Error creating initial carts. Error: ", error);
+      throw error;
+  }
+}
+
 async function rebuildDB() {
   try {
     client.connect();
@@ -177,6 +244,12 @@ async function rebuildDB() {
     console.log("Int users added");
     await addInitialPlants();
     console.log("plants added");
+
+    await createInitialCarts();
+    console.log("cart is created")
+
+    // await createInitialOrders();
+    // console.log("orders created")
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
@@ -234,6 +307,26 @@ async function testDB() {
     const singlePlant=await getPlantById(1);
     console.log("Result:",singlePlant);
 
+
+    console.log("Calling addPlantToCart");
+    const userWithProduct = await addPlantToCart(2, 3, 1);
+    console.log("Result:", userWithProduct);
+
+    console.log("Calling addPlantToCart Again");
+    const userWithSecondProduct = await addPlantToCart(2, 1, 2);
+    console.log("Result:", userWithSecondProduct);
+
+    // console.log("Calling createUserOrder");
+    // const UserOrder=await createOrder();
+    // console.log("Results:",UserOrder);
+
+    // console.log("Calling getAllorders");
+    //     const theOrders = await getAllOrders()
+    //     console.log(theOrders, "hello we are there")
+
+    //     const orderId = await getOrderById(2)
+    //     console.log(orderId, "hello we are here")
+    console.log("Finished database tests!");
 
   } catch (error) {
     console.log("Error during rebuildDB");

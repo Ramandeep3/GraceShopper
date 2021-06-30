@@ -1,7 +1,7 @@
 const {client}=require("./client")
 async function createPlants({name,description,price,quantity,type,imageURL}){
    
-   console.log("anything")
+  
    
     try{
     const{rows:[plants],
@@ -13,7 +13,7 @@ async function createPlants({name,description,price,quantity,type,imageURL}){
      `, [name,description,price,quantity,type,imageURL]
      );
 
-     console.log(plants,"my plants")
+     
      return plants;
 }
 
@@ -58,7 +58,7 @@ async function getPlantById(plant_id){
 }
 async function updatePlant(plantId,fields={}){
 
-    console.log(plantId,fields,"hello")
+    
     const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
@@ -77,7 +77,7 @@ async function updatePlant(plantId,fields={}){
                 );
         }
 
-// return await getPlantById(plant_id);
+ return await getPlantById(plant_id);
 
     }catch(error){}
 
