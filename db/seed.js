@@ -20,16 +20,16 @@ const {
 
 const{addPlantToCart,}=require("./cart")
 
-// const {createOrder,getAllOrders,
-//   getOrderById,
-//   addCartToUserOrders}=require("./orders")
+const {createOrder,getAllOrders,
+  getOrderById,
+  addCartToUserOrders}=require("./orders")
 
 async function buildTables() {
   try {
     // drop tables in correct order
     console.log("Starting to drop tables...");
     client.query(`
-      DROP TABLE IF EXISTS cart_products;
+    
       DROP TABLE IF EXISTS cart;
       DROP TABLE IF EXISTS orders;
       DROP TABLE IF EXISTS plants;
@@ -67,7 +67,12 @@ async function buildTables() {
 
        );
        
-       
+       CREATE TABLE orders(
+        id SERIAL PRIMARY KEY,
+        date_ordered VARCHAR(255) NOT NULL,
+        price MONEY
+        
+      );
 
     `);
     console.log("Finished building tables!");
@@ -178,6 +183,41 @@ async function addInitialPlants() {
     throw error;
   }
 }
+async function createInitialOrders(){
+
+  try{
+    console.log("starting to create orders....")
+    const ordersToCreate=[
+      {
+        date_ordered: "06/01/2021",
+        price: 25.99
+        
+        
+      },
+      {
+        date_ordered: "07/01/2021",
+        price: 35.99
+      },
+      {
+        date_ordered: "07/02/2021",
+        price: 19.99
+        
+      }
+      ,{
+        date_ordered: "06/28/2021",
+        price: 42.99
+        
+      
+      }
+    ];
+    const theOrders = await Promise.all(
+      ordersToCreate.map((order) => createOrder(order))
+    );
+
+    console.log("orders Created: ", theOrders);
+    console.log("Finished creating links.");
+  }catch{}
+}
 
 async function rebuildDB() {
   try {
@@ -189,11 +229,14 @@ async function rebuildDB() {
     await addInitialPlants();
     console.log("plants added");
 
-    await createInitialCarts();
-    console.log("cart is created")
+   
 
-    // await createInitialOrders();
-    // console.log("orders created")
+
+    // await createInitialCarts();
+    // console.log("cart is created")
+
+    await createInitialOrders();
+    console.log("orders created")
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
@@ -246,6 +289,13 @@ async function testDB() {
     console.log("Calling getPlantById with 1");
     const singlePlant = await getPlantById(1);
     console.log("Result:", singlePlant);
+
+    console.log("Calling getAllorders");
+    const theOrders = await getAllOrders()
+    console.log(theOrders, "please for the love of god")
+    const orderId = await getOrderById(2)
+    console.log(orderId, "please for the love of god")
+
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
