@@ -14,6 +14,7 @@ const ModalContents = () => {
       <thead>
         <tr>
           <th>#</th>
+          <th></th>
           <th>Name</th>
           <th>Price</th>
           <th>Quantity</th>
@@ -23,6 +24,7 @@ const ModalContents = () => {
       <tbody>
         <tr>
           <td>1</td>
+          <td>img</td>
           <td>Product Name</td>
           <td>Price</td>
           <td>
