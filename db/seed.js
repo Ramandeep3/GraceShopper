@@ -12,7 +12,6 @@ const {
   createPlants,
   getPlantById,
   getAllPlants,
-
   getPlantByName,
   getPlantByType,
   updatePlant,
@@ -123,7 +122,6 @@ async function addInitialPlants() {
     console.log("Starting to create plants...");
     const plantsToCreate = [
       {
-        id: 1,
         name: "Red Rose Plant",
         description: "roses symbolize gratitude, grace, admiration, and joy.",
         price: 25.99,
@@ -134,7 +132,6 @@ async function addInitialPlants() {
           "https://thumbs.dreamstime.com/b/rose-plant-miniature-red-flowers-red-plastic-pot-isolated-against-white-61525704.jpg",
       },
       {
-        id: 2,
         name: "oranges",
         description: "Orange, Citrus sinensis, is an evergreen tree",
         price: 35.99,
@@ -145,7 +142,6 @@ async function addInitialPlants() {
           "https://thumbs.dreamstime.com/b/orange-tree-against-white-background-14184672.jpg",
       },
       {
-        id: 3,
         name: "parlor palms",
         description: "Easy to grow",
         price: 19.99,
@@ -156,7 +152,6 @@ async function addInitialPlants() {
           "https://thumbs.dreamstime.com/b/beautiful-parlor-palm-white-ceramic-pot-beautiful-parlor-palm-white-ceramic-pot-reflection-white-background-119532631.jpg",
       },
       {
-        id: 4,
         name: "Succulents",
         description:
           "All cactus are succulents but not all succulents are cactus. To keep it simple, perhaps the best way to think of succulents is to think of them as plants that store water in their tissues.",

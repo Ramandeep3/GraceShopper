@@ -6,6 +6,7 @@ import SearchBar from "./Searchbar/searchbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./header.css";
 import CartModal from "./CartModal/cartModal";
+import LoginModal from "./Login/login";
 
 const Header = () => {
   return (
@@ -36,6 +37,8 @@ const Header = () => {
             </Nav.Link>
           </Nav>
           <SearchBar />
+          <br />
+          <LoginModal />
         </Navbar.Collapse>
       </Navbar>
     </div>
