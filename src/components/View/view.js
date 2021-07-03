@@ -2,16 +2,18 @@ import React from "react";
 import Header from "../Header/header";
 import Home from "../Home/home";
 import "./view.css";
+import { Route } from "react-router-dom";
+import { HOME_ROUTE } from "../../constants";
 
 const View = () => {
   return (
     <div className="body">
-      <div className="header">
+      <header className="header">
         <Header />
-      </div>
-      <div>
-        <Home />
-      </div>
+      </header>
+      <main>
+        <Route path={HOME_ROUTE} component={Home} />
+      </main>
     </div>
   );
 };

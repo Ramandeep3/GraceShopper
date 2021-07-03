@@ -11,7 +11,16 @@ export async function getSomething() {
 export async function getAllPlants() {
   try {
     const { data } = await axios.get("/api/plants");
-    console.log(data, "HHHHHHHHHH");
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function loginUser(body) {
+  try {
+    const { data } = await axios.post("/api/users/login", body);
+    console.log(data);
     return data;
   } catch (error) {
     throw error;
