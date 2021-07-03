@@ -32,6 +32,7 @@
     "db:build": "node ./db/seed.js",
     "start": "node index.js"
   },
+  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": [
       "react-app",

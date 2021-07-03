@@ -12,17 +12,16 @@ const {
   createPlants,
   getPlantById,
   getAllPlants,
-
   getPlantByName,
   getPlantByType,
   updatePlant,
 } = require("./plants");
 
-const{addPlantToCart,}=require("./cart")
+const { addToCart, getCartByUsername } = require("./cart");
 
-const {createOrder,getAllOrders,
-  getOrderById,
-  addCartToUserOrders}=require("./orders")
+// const {createOrder,getAllOrders,
+//   getOrderById,
+//   addCartToUserOrders}=require("./orders")
 
 async function buildTables() {
   try {
@@ -69,11 +68,21 @@ async function buildTables() {
        
        CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
-        date_ordered VARCHAR(255) NOT NULL,
-        price MONEY
-        
+        "userId" INTEGER REFERENCES users(id),
+        "productId" INTEGER REFERENCES plants(id),
+        count INTEGER NOT NULL, 
+        "orderStatus" VARCHAR(255) NOT NULL,
+        "orderCreated" DATE NOT NULL 
+     );
+     CREATE TABLE cart(
+      id SERIAL PRIMARY KEY,
+      "userId" INTEGER REFERENCES users(id),
+      "productId" INTEGER REFERENCES plants(id),
+      price MONEY,
+      quantity INTEGER,
+      "imageURL" VARCHAR(255) REFERNECES plants("imageURL"),
       );
-
+ 
     `);
     console.log("Finished building tables!");
   } catch (error) {
@@ -116,6 +125,16 @@ async function addInitialUsers() {
         state: "TN",
         zip: "12345",
       },
+      {
+        email: "The.MF.Greatest@gmail.com",
+        name: "The Greatest",
+        password: "elGreat",
+        username: "TheGreatestMF",
+        address: "9999 Throne Room",
+        city: "Atlantis",
+        state: "Earth",
+        zip: "98765",
+      },
     ];
     const users = await Promise.all(usersToCreate.map(createUser));
     console.log("User Created: ", users);
@@ -130,7 +149,6 @@ async function addInitialPlants() {
     console.log("Starting to create plants...");
     const plantsToCreate = [
       {
-        id: 1,
         name: "Red Rose Plant",
         description: "roses symbolize gratitude, grace, admiration, and joy.",
         price: 25.99,
@@ -141,7 +159,6 @@ async function addInitialPlants() {
           "https://thumbs.dreamstime.com/b/rose-plant-miniature-red-flowers-red-plastic-pot-isolated-against-white-61525704.jpg",
       },
       {
-        id: 2,
         name: "oranges",
         description: "Orange, Citrus sinensis, is an evergreen tree",
         price: 35.99,
@@ -152,7 +169,6 @@ async function addInitialPlants() {
           "https://thumbs.dreamstime.com/b/orange-tree-against-white-background-14184672.jpg",
       },
       {
-        id: 3,
         name: "parlor palms",
         description: "Easy to grow",
         price: 19.99,
@@ -163,7 +179,6 @@ async function addInitialPlants() {
           "https://thumbs.dreamstime.com/b/beautiful-parlor-palm-white-ceramic-pot-beautiful-parlor-palm-white-ceramic-pot-reflection-white-background-119532631.jpg",
       },
       {
-        id: 4,
         name: "Succulents",
         description:
           "All cactus are succulents but not all succulents are cactus. To keep it simple, perhaps the best way to think of succulents is to think of them as plants that store water in their tissues.",
@@ -183,41 +198,41 @@ async function addInitialPlants() {
     throw error;
   }
 }
-async function createInitialOrders(){
+// async function createInitialOrders(){
 
-  try{
-    console.log("starting to create orders....")
-    const ordersToCreate=[
-      {
-        date_ordered: "06/01/2021",
-        price: 25.99
+//   try{
+//     console.log("starting to create orders....")
+//     const ordersToCreate=[
+//       {
+//         date_ordered: "06/01/2021",
+//         price: 25.99
         
         
-      },
-      {
-        date_ordered: "07/01/2021",
-        price: 35.99
-      },
-      {
-        date_ordered: "07/02/2021",
-        price: 19.99
+//       },
+//       {
+//         date_ordered: "07/01/2021",
+//         price: 35.99
+//       },
+//       {
+//         date_ordered: "07/02/2021",
+//         price: 19.99
         
-      }
-      ,{
-        date_ordered: "06/28/2021",
-        price: 42.99
+//       }
+//       ,{
+//         date_ordered: "06/28/2021",
+//         price: 42.99
         
       
-      }
-    ];
-    const theOrders = await Promise.all(
-      ordersToCreate.map((order) => createOrder(order))
-    );
+//       }
+//     ];
+//     const theOrders = await Promise.all(
+//       ordersToCreate.map((order) => createOrder(order))
+//     );
 
-    console.log("orders Created: ", theOrders);
-    console.log("Finished creating links.");
-  }catch{}
-}
+//     console.log("orders Created: ", theOrders);
+//     console.log("Finished creating links.");
+//   }catch{}
+// }
 
 async function rebuildDB() {
   try {
@@ -235,22 +250,22 @@ async function rebuildDB() {
     // await createInitialCarts();
     // console.log("cart is created")
 
-    await createInitialOrders();
-    console.log("orders created")
-  } catch (error) {
-    console.log("Error during rebuildDB");
-    throw error;
+//     await createInitialOrders();
+//     console.log("orders created")
+} catch (error) {
+       console.log("Error during rebuildDB");
+   throw error;
   }
-}
+ }
 
 async function testDB() {
   try {
-    console.log("starting to build tables in rebuildDB");
-    // await buildTables();
-    console.log("finished build of tables in rebuildDB");
-    console.log("starting to add initial users in rebuildDB");
-    await addInitialUsers();
-    console.log("finished adding initial users in rebuildDB");
+    // console.log("starting to build tables in rebuildDB");
+    // // await buildTables();
+    // console.log("finished build of tables in rebuildDB");
+    // console.log("starting to add initial users in rebuildDB");
+    // await addInitialUsers();
+    // console.log("finished adding initial users in rebuildDB");
     console.log("calling getAllUsers");
     const users = await getAllUsers();
     console.log("get All users Result:", users);
@@ -290,12 +305,33 @@ async function testDB() {
     const singlePlant = await getPlantById(1);
     console.log("Result:", singlePlant);
 
-    console.log("Calling getAllorders");
-    const theOrders = await getAllOrders()
-    console.log(theOrders, "please for the love of god")
-    const orderId = await getOrderById(2)
-    console.log(orderId, "please for the love of god")
+    console.log("Calling getUserByUsername with 3");
+    const usernameofThree = "TheGreatestMF";
+    const usernameThree = await getUserByUsername(usernameofThree);
+    console.log("Results for getUserByUsername Three:", usernameThree);
 
+    console.log("Calling First addToCart");
+    const userCartOne = await addToCart(
+      usernameThree.username,
+      plants[0].id,
+      2,
+      "something",
+      "2021-07-04"
+    );
+    console.log("Result of First Cart Test:", userCartOne);
+
+    console.log("Calling Second addToCart");
+    const userCartTwo = await addToCart(
+      usernameThree.username,
+      plants[1].id,
+      5.99,
+      5,
+      "2021-06-04"
+    );
+    console.log("Result of Second Cart Test:", userCartTwo);
+
+    const userCart = await getCartByUsername(usernameofThree);
+    console.log("Result of User Cart:", userCart);
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;

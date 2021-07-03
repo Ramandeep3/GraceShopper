@@ -9,8 +9,16 @@ import AddIcon from "@material-ui/icons/Add";
 import { getAllPlants } from "../../api";
 
 const TopCards = () => {
-  const [number, setNumber] = useState("1");
-  console.log(number);
+  const [count, setCount] = useState(1);
+
+  const minusButtonClick = (event) => {
+    event.preventDefault();
+    setCount(count - 1);
+  };
+  const addButtonClick = (event) => {
+    event.preventDefault();
+    setCount(count + 1);
+  };
 
   const cards = async () => {
     console.log("inCards");
@@ -39,17 +47,19 @@ const TopCards = () => {
             </Card.Text>
             <Card.Text>$42.99</Card.Text>
             <InputGroup className="mb-3">
-              <Button variant="outline-secondary">
+              <Button onClick={minusButtonClick} variant="outline-secondary">
                 <RemoveIcon fontSize="small" />
               </Button>
               <Form.Control
+                style={{ textAlign: "center" }}
                 type="value"
+                value={count}
                 aria-label="Quantity"
                 onInput={(event) => {
-                  setNumber(event.target.value);
+                  setCount(event.target.value);
                 }}
               ></Form.Control>
-              <Button variant="outline-secondary">
+              <Button onClick={addButtonClick} variant="outline-secondary">
                 <AddIcon fontSize="small" />
               </Button>
               <Button variant="primary">Add to Cart</Button>
