@@ -23,12 +23,11 @@ async function createUserCart(userId, productId, price, quantity, imageURL) {
   }
 }
 
-async function addToCart(username, productId, price, quantity, imageURL) {
-  const cart = await getCartByUsername(username);
-  const user = await getUserByUsername(username);
+async function addToCart(userId, productId, price, quantity, imageURL) {
+  const cart = await getCartByUserId(userId);
+  const user = await getUserByUsername(userId);
   console.log("Inside addToCart - Just the User from getUserByUsername", user);
 
-  const userId = user.id;
   console.log("Inside addToCart - user.ID from getUserByUsername", userId);
 
   if (!cart) {
@@ -57,12 +56,7 @@ async function addToCart(username, productId, price, quantity, imageURL) {
   }
 }
 
-async function getCartByUsername(username) {
-  console.log("Inside getCartByUsername");
-  const user = await getUserByUsername(username);
-  console.log("The User of Cart Query", user);
-  const userId = user.id;
-
+async function getCartByUserId(userId) {
   try {
     const {
       rows: [cart],
@@ -82,7 +76,7 @@ async function getCartByUsername(username) {
 module.exports = {
   createUserCart,
   addToCart,
-  getCartByUsername,
+  getCartByUserId,
   // deleteFromCart,
   // updateCart,
 };
