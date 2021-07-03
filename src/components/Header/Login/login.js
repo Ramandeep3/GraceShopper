@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
+import { loginUser } from "../../../api/index";
 import "./login.css";
+import { REGISTER_ROUTE } from "../../../constants";
+import { Link } from "react-router-dom";
 
 const LoginModal = () => {
   const [show, setShow] = useState(false);
@@ -15,13 +17,9 @@ const LoginModal = () => {
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState();
 
-  const loginUser = async () => {
-    return await axios
-      .post(`/api/users/login`, {
-        username,
-        password,
-      })
-      .then(({ data: { token } }) => {
+  const loginSubmit = async () => {
+    return await loginUser({ username, password })
+      .then(({ token }) => {
         if (token) {
           console.log(token);
           localStorage.setItem("token", JSON.stringify(token));
@@ -37,7 +35,7 @@ const LoginModal = () => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    loginUser();
+    loginSubmit();
   };
   return (
     <>
@@ -89,7 +87,11 @@ const LoginModal = () => {
                 className="mb-3"
                 controlId="formBasicCheckbox"
               ></Form.Group>
-              <Button variant="secondary">Signup</Button>
+              <Link to={REGISTER_ROUTE}>
+                <Button variant="secondary" onClick={handleClose}>
+                  Signup
+                </Button>
+              </Link>
               <div style={{ float: "right" }}>
                 <Button variant="danger" onClick={handleClose}>
                   Cancel

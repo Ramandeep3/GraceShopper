@@ -4,8 +4,10 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { Link } from "react-router-dom";
 import "./cartModal.css";
 import ModalContents from "./CartContents";
+import { CART_ROUTE } from "../../../constants";
 
 const CartModal = () => {
   const [show, setShow] = useState(false);
@@ -41,14 +43,16 @@ const CartModal = () => {
               <Button variant="danger" onClick={handleClose}>
                 Close
               </Button>
-              <Button
-                style={{ marginLeft: "5px" }}
-                variant="success"
-                onClick={handleClose}
-                type="submit"
-              >
-                Continue to Cart
-              </Button>
+              <Link to={CART_ROUTE}>
+                <Button
+                  style={{ marginLeft: "5px" }}
+                  variant="success"
+                  onClick={handleClose}
+                  type="submit"
+                >
+                  Continue to Cart
+                </Button>
+              </Link>
             </div>
           </Form>
         </Modal.Body>

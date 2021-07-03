@@ -7,30 +7,101 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./header.css";
 import CartModal from "./CartModal/cartModal";
 import LoginModal from "./Login/login";
+import { Link } from "react-router-dom";
+import {
+  HOME_ROUTE,
+  LEARN_ROUTE,
+  SHOP_ROUTE,
+  FLOWERING_ROUTE,
+  NONFLOWERING_ROUTE,
+  FRUIT_ROUTE,
+  TREES_ROUTE,
+  INDOOR_ROUTE,
+  OUTDOOR_ROUTE,
+} from "../../constants";
 
 const Header = () => {
   return (
     <div>
       <Navbar className="header-content" bg="dark" variant="dark" expand="lg">
-        <Navbar.Brand className="header-title" href="#home">
-          The Plant Life
-        </Navbar.Brand>
+        <Link to={HOME_ROUTE}>
+          <Navbar.Brand className="header-title">The Plant Life</Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Shop</Nav.Link>
-            <Nav.Link href="#link">Learn</Nav.Link>
+            <Link
+              style={{ textDecoration: "none", color: "whitesmoke" }}
+              to={SHOP_ROUTE}
+            >
+              <div>Shop</div>
+            </Link>
+            <Link
+              style={{
+                textDecoration: "none",
+                color: "whitesmoke",
+                paddingLeft: "5px",
+              }}
+              to={LEARN_ROUTE}
+            >
+              <div>Learn</div>
+            </Link>
             <NavDropdown title="Shop by Type" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Flowering</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Non-Flowering
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Fruit</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.4">Trees</NavDropdown.Item>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                }}
+                to={FLOWERING_ROUTE}
+              >
+                <div>Flowering</div>
+              </Link>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                }}
+                to={NONFLOWERING_ROUTE}
+              >
+                <div>Non-Flowering</div>
+              </Link>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                }}
+                to={FRUIT_ROUTE}
+              >
+                <div>Fruit</div>
+              </Link>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                }}
+                to={TREES_ROUTE}
+              >
+                <div>Trees</div>
+              </Link>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.5">Indoor</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.6">Outdoor</NavDropdown.Item>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                }}
+                to={INDOOR_ROUTE}
+              >
+                <div>Indoor</div>
+              </Link>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                }}
+                to={OUTDOOR_ROUTE}
+              >
+                <div>Outdoor</div>
+              </Link>
             </NavDropdown>
             <Nav.Link>
               <CartModal />

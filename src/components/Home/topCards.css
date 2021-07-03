@@ -1,0 +1,6 @@
+.top-cards {
+  display: flex;
+}
+.card-box {
+  flex-direction: row;
+}

@@ -97,6 +97,7 @@ async function addInitialUsers() {
         city: "Noplace",
         state: "SC",
         zip: "54321",
+        isAdmin: true,
       },
       {
         email: "john.doe@gmail.com",
@@ -107,6 +108,7 @@ async function addInitialUsers() {
         city: "Somewhere",
         state: "TN",
         zip: "12345",
+        isAdmin: false,
       },
     ];
     const users = await Promise.all(usersToCreate.map(createUser));
