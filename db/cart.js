@@ -2,8 +2,6 @@ const { client } = require("./client");
 const { getUserByUsername } = require("./users");
 
 async function createUserCart(userId, productId, price, quantity, plantUrl) {
-  console.log("Inside createUserCart before try/catch");
-
   try {
     const { rows: cart } = await client.query(
       `
@@ -14,8 +12,6 @@ async function createUserCart(userId, productId, price, quantity, plantUrl) {
       [userId, productId, price, quantity, plantUrl]
     );
 
-    console.log("create Cart return as Cart", cart);
-
     return cart;
   } catch (error) {
     throw error;
@@ -24,20 +20,14 @@ async function createUserCart(userId, productId, price, quantity, plantUrl) {
 
 async function addToCart(username, productId, price, quantity, plantUrl) {
   const user = await getUserByUsername(username);
-  console.log("Inside addToCart - Just the User from getUserByUsername", user);
 
   const userId = user.id;
 
   const cart = await getCartByUserId(userId);
 
-  console.log("Inside addToCart - user.ID from getUserByUsername", userId);
-
   if (!cart) {
-    console.log("Inside addToCart if/esle [IF]");
     await createUserCart(userId, productId, price, quantity, plantUrl);
   } else {
-    console.log("Inside addToCart if/esle [ELSE]");
-
     try {
       const {
         rows: [orders],
@@ -68,7 +58,22 @@ async function getCartByUserId(userId) {
       [userId]
     );
 
-    console.log("MY Cart", rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getCartByUsername(username) {
+  try {
+    const { rows } = await client.query(
+      `
+    SELECT *
+    FROM cart
+    WHERE "userId"=$1;`,
+      [username]
+    );
+
     return rows;
   } catch (error) {
     throw error;
@@ -115,4 +120,5 @@ module.exports = {
   getCartByUserId,
   deleteFromCart,
   updateItemQuantity,
+  getCartByUsername,
 };

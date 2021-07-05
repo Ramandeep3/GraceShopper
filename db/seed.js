@@ -74,7 +74,6 @@ async function buildTables() {
         "orderStatus" VARCHAR(255) NOT NULL,
         "orderCreated" DATE NOT NULL 
        );
-       
        CREATE TABLE cart(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
@@ -260,7 +259,6 @@ async function testDB() {
     console.log("Calling getUserByUsername with 3");
     const usernameGreatest = "TheGreatestMF";
     const greatestUser = await getUserByUsername(usernameGreatest);
-    console.log("greatest User", greatestUser);
     const greatestId = greatestUser.id;
 
     console.log("Calling First addToCart");

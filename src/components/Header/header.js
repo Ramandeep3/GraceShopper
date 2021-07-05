@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -19,8 +19,12 @@ import {
   INDOOR_ROUTE,
   OUTDOOR_ROUTE,
 } from "../../constants";
+import { getUserCart } from "../../api";
 
-const Header = () => {
+const Header = ({ authenticated, setAuthenticated }) => {
+  const [username, setUsername] = useState();
+  const [cart, setCart] = useState([]);
+
   return (
     <div>
       <Navbar className="header-content" bg="dark" variant="dark" expand="lg">
@@ -104,12 +108,12 @@ const Header = () => {
               </Link>
             </NavDropdown>
             <Nav.Link>
-              <CartModal />
+              <CartModal cart={cart} useState={useState} />
             </Nav.Link>
           </Nav>
           <SearchBar />
           <br />
-          <LoginModal />
+          <LoginModal username={username} setUsername={setUsername} />
         </Navbar.Collapse>
       </Navbar>
     </div>

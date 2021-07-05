@@ -9,11 +9,10 @@ import "./login.css";
 import { REGISTER_ROUTE } from "../../../constants";
 import { Link } from "react-router-dom";
 
-const LoginModal = () => {
+const LoginModal = ({ username, setUsername }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState();
 
