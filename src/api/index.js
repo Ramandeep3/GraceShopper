@@ -27,3 +27,12 @@ export async function loginUser(body) {
   }
 }
 
+export async function registerUser(body) {
+  try {
+    const { data } = await axios.post("/api/users/register", body);
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
