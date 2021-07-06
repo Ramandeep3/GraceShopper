@@ -37,7 +37,7 @@ apiRouter.use(async (req, res, next) => {
 
 apiRouter.use("/users", usersRouter);
 apiRouter.use("/plants", plantsRouter);
-apiRouter.use("/orders", cartRouter);
+apiRouter.use("/cart", cartRouter);
 
 apiRouter.use((error, req, res, next) => {
   res.send(error);
