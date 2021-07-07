@@ -4,9 +4,20 @@ import Home from "../Home/home";
 import Cart from "../Header/CartModal/Cart";
 import "./view.css";
 import { Route } from "react-router-dom";
-import { CART_ROUTE, HOME_ROUTE, REGISTER_ROUTE } from "../../constants";
 import Register from "../Register/register";
 import { getUserInfo } from "./api";
+import Learn from "../Learn/learn";
+import {
+  HOME_ROUTE,
+  REGISTER_ROUTE,
+  SHOP_ROUTE,
+  LEARN_ROUTE,
+  NEW_PLANT_ROUTE,
+  CART_ROUTE,
+} from "../../constants";
+import ShopPage from "../ShopPage/shopPage";
+import AdminNav from "../Header/AdminHeader/adminHeader";
+import createPlants from "../CreatePlants";
 
 const View = () => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -37,11 +48,17 @@ const View = () => {
           user={user}
           setUser={setUser}
         />
+        <Header />
+        <AdminNav />
       </header>
       <main>
         <Route path={HOME_ROUTE} component={Home} />
         <Route path={REGISTER_ROUTE} component={Register} />
         <Route path={CART_ROUTE} component={Cart} />
+        <Route path={LEARN_ROUTE} component={Learn} />
+        <Route path={NEW_PLANT_ROUTE} component={createPlants} />
+
+        <Route path={SHOP_ROUTE} component={ShopPage} />
       </main>
     </div>
   );

@@ -34,18 +34,22 @@ const Register = () => {
         if (token) {
           localStorage.setItem("token", JSON.stringify(token));
         } else {
-          setErrorMessage("Something went horribly wrong");
+          setErrorMessage(
+            "That information appears to be used. Please try again!"
+          );
         }
       })
       .catch((error) => {
         console.log(error);
-        setErrorMessage("Something went horribly wrong");
+        setErrorMessage(
+          "That information appears to be used. Please try again!"
+        );
       });
   };
 
   const checkToken = () => {
     if (JSON.parse(localStorage.getItem("token")) === null) {
-      window.alert("Something went wrong please try again");
+      window.alert(errorMessage);
     } else {
       window.location.replace(HOME_ROUTE);
     }

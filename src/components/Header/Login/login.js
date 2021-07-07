@@ -15,7 +15,9 @@ const LoginModal = () => {
   const handleShow = () => setShow(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState();
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState(
+    "Something went horribly wrong"
+  );
 
   const loginSubmit = async () => {
     return await loginUser({ username, password })
@@ -26,11 +28,13 @@ const LoginModal = () => {
           window.location.reload();
         } else {
           setErrorMessage("Something went horribly wrong");
+          window.alert(errorMessage);
         }
       })
       .catch((error) => {
         console.log(error);
         setErrorMessage("Something went horribly wrong");
+        window.alert(errorMessage);
       });
   };
 

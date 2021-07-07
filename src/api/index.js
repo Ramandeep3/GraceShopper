@@ -67,3 +67,19 @@ export async function getUserInfo() {
     throw error;
   }
 }
+
+export async function createProduct(name, description, price, image_url, type) {
+  try {
+    const { data } = await axios.post("/api/plants", {
+      name,
+      description,
+      price,
+      image_url,
+      type,
+    });
+    alert("Plants successfully added");
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -121,6 +121,7 @@ const Header = ({ authenticated, setAuthenticated, user, setUser }) => {
             </Nav.Link>
           </Nav>
           <SearchBar />
+          
           <br />
           <LoginModal />
         </Navbar.Collapse>
