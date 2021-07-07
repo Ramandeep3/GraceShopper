@@ -7,9 +7,8 @@ import Form from "react-bootstrap/Form";
 import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
 import { getAllPlants } from "../../api";
-import "./topCards.css";
 
-const TopCards = () => {
+const AllCards = () => {
   const [count, setCount] = useState(1);
   const [cards, setCards] = useState([]);
 
@@ -37,7 +36,11 @@ const TopCards = () => {
 
   return cards.map((card, index) => {
     return (
-      <Card style={{ width: "18rem" }} id={index} className="cards">
+      <Card
+        style={{ marginTop: "10px", width: "18rem" }}
+        id={index}
+        className="cards"
+      >
         <Card.Img variant="top" src={card.imageURL} />
         <Card.Body>
           <Card.Title>{card.name}</Card.Title>
@@ -66,4 +69,4 @@ const TopCards = () => {
     );
   });
 };
-export default TopCards;
+export default AllCards;

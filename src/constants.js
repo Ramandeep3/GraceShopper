@@ -9,3 +9,4 @@ export const FRUIT_ROUTE = "/shop/fruit";
 export const TREES_ROUTE = "/shop/trees";
 export const INDOOR_ROUTE = "/shop/indoor";
 export const OUTDOOR_ROUTE = "/shop/outdoor";
+export const NEW_PLANT_ROUTE = "/newplant";
