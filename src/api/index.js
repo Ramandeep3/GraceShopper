@@ -30,7 +30,7 @@ export async function loginUser(body) {
 export async function getUserCart(username) {
   console.log("SRC API CALL - getUserCart/ID", username);
   try {
-    const { data } = await axios.get(`/api/${username}/cart`, username);
+    const { data } = await axios.get(`/api/${username}/cart`);
     console.log("SRC API CALL - getUserCart/Data", data);
     return data;
   } catch (error) {
@@ -47,6 +47,23 @@ export async function addToUserCart(body) {
     return data;
   } catch (error) {
     console.log(error);
+  }
+}
+export async function registerUser(body) {
+  try {
+    const { data } = await axios.post("/api/users/register", body);
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getUserInfo() {
+  try {
+    const res = await axios.get("/api/users/me");
+    console.log(res);
+  } catch (error) {
     throw error;
   }
 }

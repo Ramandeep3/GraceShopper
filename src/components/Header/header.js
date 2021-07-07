@@ -21,9 +21,18 @@ import {
 } from "../../constants";
 import { getUserCart } from "../../api";
 
-const Header = ({ authenticated, setAuthenticated }) => {
-  const [username, setUsername] = useState();
+const Header = ({ authenticated, setAuthenticated, user, setUser }) => {
   const [cart, setCart] = useState([]);
+  const username = JSON.parse(localStorage.getItem("username"));
+
+  useEffect(() => {
+    (async () => {
+      console.log("HEADER USE EFFECT USERNAME", username);
+      const userCart = await getUserCart(username);
+      await setCart(userCart);
+      console.log("AFTER USE EFFECT", cart);
+    })();
+  }, [username, cart]);
 
   return (
     <div>
@@ -108,12 +117,12 @@ const Header = ({ authenticated, setAuthenticated }) => {
               </Link>
             </NavDropdown>
             <Nav.Link>
-              <CartModal cart={cart} useState={useState} />
+              <CartModal cart={cart} setCart={setCart} />
             </Nav.Link>
           </Nav>
           <SearchBar />
           <br />
-          <LoginModal username={username} setUsername={setUsername} />
+          <LoginModal />
         </Navbar.Collapse>
       </Navbar>
     </div>

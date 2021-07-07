@@ -9,7 +9,7 @@ import "./cartModal.css";
 import ModalContents from "./CartContents";
 import { CART_ROUTE } from "../../../constants";
 
-const CartModal = ({ cart }) => {
+const CartModal = ({ cart, setCart }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

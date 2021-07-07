@@ -1,0 +1,8 @@
+.register-form {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+.form-control {
+  border: 1px solid black;
+  margin-bottom: 5px;
+}

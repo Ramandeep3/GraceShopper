@@ -9,10 +9,11 @@ import "./login.css";
 import { REGISTER_ROUTE } from "../../../constants";
 import { Link } from "react-router-dom";
 
-const LoginModal = ({ username, setUsername }) => {
+const LoginModal = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState();
 
@@ -20,8 +21,9 @@ const LoginModal = ({ username, setUsername }) => {
     return await loginUser({ username, password })
       .then(({ token }) => {
         if (token) {
-          console.log(token);
           localStorage.setItem("token", JSON.stringify(token));
+          localStorage.setItem("username", JSON.stringify(username));
+          window.location.reload();
         } else {
           setErrorMessage("Something went horribly wrong");
         }

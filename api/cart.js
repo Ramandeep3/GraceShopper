@@ -17,6 +17,7 @@ cartRouter.get("/me", requireUser, async (res, req, next) => {
 
 cartRouter.get("/:username/cart", requireUser, async (req, res, next) => {
   const { username } = req.params;
+  console.log("API CART ROUTER", username);
   const userCart = await getCartByUsername(username);
   console.log("API CALL - User Cart:", userCart);
   return userCart;
