@@ -1,6 +1,7 @@
 
 import React, {useState} from "react";
 import { createProduct } from "../api";
+ import "./CreatePlants.css";
 const CreateProduct=()=>{
     const[name,setName]=useState(null);
     const [description, setDescription] = useState(null);
