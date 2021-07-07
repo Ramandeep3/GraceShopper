@@ -18,9 +18,9 @@ const CreateProduct=()=>{
 
 return(
     <div className="form-container">
-        <h1 className="form-header">Craete NEW product</h1>
+        <h1 className="form-header">Create NEW Plant</h1>
         <div>
-            <form className="craete-product"
+            <form className="create-product"
             onSubmit={(event)=>event.preventDefault()}>
                 <input
             placeholder="Name..."
