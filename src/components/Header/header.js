@@ -108,6 +108,7 @@ const Header = () => {
             </Nav.Link>
           </Nav>
           <SearchBar />
+          
           <br />
           <LoginModal />
         </Navbar.Collapse>
