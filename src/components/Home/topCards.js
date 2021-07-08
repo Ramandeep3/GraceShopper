@@ -25,7 +25,9 @@ const TopCards = () => {
   const cardsFetch = async () => {
     try {
       const cardList = await getAllPlants();
-      return cardList;
+      const shuffled = cardList.sort(() => 0.5 - Math.random());
+      const topPicks = shuffled.slice(0, 6);
+      return topPicks;
     } catch (error) {
       throw error;
     }
@@ -34,7 +36,6 @@ const TopCards = () => {
     const recivedCards = await cardsFetch();
     setCards(recivedCards);
   }, []);
-
   return cards.map((card, index) => {
     return (
       <Card style={{ width: "18rem" }} id={index} className="cards">

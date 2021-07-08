@@ -10,8 +10,8 @@ const Home = () => {
         <About />
       </div>
       <br />
+      <h1>Top Picks This Week!</h1>
       <div className="hot-picks">
-        <h1>Top Picks This Week!</h1>
         <TopCards />
       </div>
     </div>
