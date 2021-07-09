@@ -84,7 +84,6 @@ const LoginModal = () => {
                   onInput={(event) => {
                     setPassword(event.target.value);
                   }}
-                  z
                 />
               </Form.Group>
               <Form.Group

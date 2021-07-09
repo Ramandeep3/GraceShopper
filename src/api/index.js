@@ -52,3 +52,14 @@ export async function createProduct(name, description, price, image_url, type) {
     throw error;
   }
 }
+
+export async function getPlantByName(name) {
+  console.log("IN srcAPI", name);
+  try {
+    const { data } = await axios.get(`/api/plants/${name}`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
