@@ -5,7 +5,6 @@ import Cart from "../Header/CartModal/Cart";
 import "./view.css";
 import { Route } from "react-router-dom";
 import Register from "../Register/register";
-import { getUserInfo } from "./api";
 import Learn from "../Learn/learn";
 import {
   HOME_ROUTE,
@@ -31,13 +30,13 @@ const View = () => {
     }
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      const userinfo = await getUserInfo();
-      setUser(userinfo);
-      console.log("USER INFO", user);
-    })();
-  }, [user]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const userinfo = await getUserInfo();
+  //     setUser(userinfo);
+  //     console.log("USER INFO", user);
+  //   })();
+  // }, [user]);
 
   return (
     <div className="body">
@@ -48,7 +47,6 @@ const View = () => {
           user={user}
           setUser={setUser}
         />
-        <Header />
         <AdminNav />
       </header>
       <main>

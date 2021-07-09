@@ -5,7 +5,7 @@ const { JWT_SECRET } = process.env;
 const bcrypt = require("bcrypt");
 const SALT_COUNT = 10;
 
-const { addToCart, getCartByUsername } = require("../db");
+const { addToCart, getCartByUserId, getUserByUsername } = require("../db");
 const { requireUser } = require("./required");
 
 cartRouter.get("/me", requireUser, async (res, req, next) => {
@@ -15,12 +15,12 @@ cartRouter.get("/me", requireUser, async (res, req, next) => {
   }
 });
 
-cartRouter.get("/:username/cart", requireUser, async (req, res, next) => {
+cartRouter.get("/:username", async (req, res, next) => {
   const { username } = req.params;
-  console.log("API CART ROUTER", username);
-  const userCart = await getCartByUsername(username);
-  console.log("API CALL - User Cart:", userCart);
-  return userCart;
+  const user = await getUserByUsername(username);
+  const userId = user.id;
+  const userCart = await getCartByUserId(userId);
+  res.send(userCart);
 });
 
 cartRouter.post("/user/cart", requireUser, async (req, res, next) => {

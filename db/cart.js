@@ -1,5 +1,3 @@
-
-
 const { client } = require("./client");
 const { getUserByUsername } = require("./users");
 
@@ -72,7 +70,7 @@ async function getCartByUsername(username) {
       `
     SELECT *
     FROM cart
-    WHERE "userId"=$1;`,
+    WHERE "username"=$1;`,
       [username]
     );
 

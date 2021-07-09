@@ -27,12 +27,13 @@ const Header = ({ authenticated, setAuthenticated, user, setUser }) => {
 
   useEffect(() => {
     (async () => {
-      console.log("HEADER USE EFFECT USERNAME", username);
       const userCart = await getUserCart(username);
-      await setCart(userCart);
-      console.log("AFTER USE EFFECT", cart);
+      console.log("HEADER USE EFFECT USERCART", userCart);
+      setCart(userCart);
     })();
-  }, [username, cart]);
+  }, []);
+
+  console.log("AFTER USE EFFECT", cart);
 
   return (
     <div>
@@ -121,7 +122,7 @@ const Header = ({ authenticated, setAuthenticated, user, setUser }) => {
             </Nav.Link>
           </Nav>
           <SearchBar />
-          
+
           <br />
           <LoginModal />
         </Navbar.Collapse>
