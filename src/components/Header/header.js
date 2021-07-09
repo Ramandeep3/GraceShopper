@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -19,8 +19,22 @@ import {
   INDOOR_ROUTE,
   OUTDOOR_ROUTE,
 } from "../../constants";
+import { getUserCart } from "../../api";
 
-const Header = () => {
+const Header = ({ authenticated, setAuthenticated, user, setUser }) => {
+  const [cart, setCart] = useState([]);
+  const username = JSON.parse(localStorage.getItem("username"));
+
+  useEffect(() => {
+    (async () => {
+      const userCart = await getUserCart(username);
+      console.log("HEADER USE EFFECT USERCART", userCart);
+      setCart(userCart);
+    })();
+  }, []);
+
+  console.log("AFTER USE EFFECT", cart);
+
   return (
     <div>
       <Navbar className="header-content" bg="dark" variant="dark" expand="lg">
@@ -104,11 +118,11 @@ const Header = () => {
               </Link>
             </NavDropdown>
             <Nav.Link>
-              <CartModal />
+              <CartModal cart={cart} setCart={setCart} />
             </Nav.Link>
           </Nav>
           <SearchBar />
-          
+
           <br />
           <LoginModal />
         </Navbar.Collapse>

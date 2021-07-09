@@ -80,7 +80,6 @@ async function buildTables() {
         "orderStatus" VARCHAR(255) NOT NULL,
         "orderCreated" DATE NOT NULL 
        );
-       
        CREATE TABLE cart(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
@@ -247,8 +246,7 @@ async function addInitialPlants() {
 //       {
 //         date_ordered: "06/01/2021",
 //         price: 25.99
-        
-        
+
 //       },
 //       {
 //         date_ordered: "07/01/2021",
@@ -257,13 +255,12 @@ async function addInitialPlants() {
 //       {
 //         date_ordered: "07/02/2021",
 //         price: 19.99
-        
+
 //       }
 //       ,{
 //         date_ordered: "06/28/2021",
 //         price: 42.99
-        
-      
+
 //       }
 //     ];
 //     const theOrders = await Promise.all(
@@ -285,19 +282,16 @@ async function rebuildDB() {
     await addInitialPlants();
     console.log("plants added");
 
-   
-
-
     // await createInitialCarts();
     // console.log("cart is created")
 
-//     await createInitialOrders();
-//     console.log("orders created")
-} catch (error) {
-       console.log("Error during rebuildDB");
-   throw error;
+    //     await createInitialOrders();
+    //     console.log("orders created")
+  } catch (error) {
+    console.log("Error during rebuildDB");
+    throw error;
   }
- }
+}
 
 async function testDB() {
   try {
@@ -343,7 +337,6 @@ async function testDB() {
     console.log("Calling getUserByUsername with 3");
     const usernameGreatest = "TheGreatestMF";
     const greatestUser = await getUserByUsername(usernameGreatest);
-    console.log("greatest User", greatestUser);
     const greatestId = greatestUser.id;
 
     console.log("Calling First addToCart");

@@ -9,7 +9,7 @@ import "./cartModal.css";
 import ModalContents from "./CartContents";
 import { CART_ROUTE } from "../../../constants";
 
-const CartModal = () => {
+const CartModal = ({ cart, setCart }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -37,7 +37,8 @@ const CartModal = () => {
             backgroundColor: "black",
           }}
         >
-          <ModalContents />
+          {/* Map through Cart state to displat */}
+          <ModalContents cart={cart} />
           <Form className="CartModal" onSubmit={onFormSubmit}>
             <div style={{ float: "right" }}>
               <Button variant="danger" onClick={handleClose}>
