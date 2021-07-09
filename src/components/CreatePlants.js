@@ -2,7 +2,7 @@
 import React, {useState} from "react";
 import { createProduct } from "../api";
  import "./CreatePlants.css";
-const CreateProduct=()=>{
+const CreatePlants=()=>{
     const[name,setName]=useState(null);
     const [description, setDescription] = useState(null);
   const [price, setPrice] = useState(null);
@@ -54,4 +54,4 @@ return(
     </div>
 )
 }
-export default CreateProduct;
+export default CreatePlants;

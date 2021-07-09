@@ -52,3 +52,15 @@ export async function createProduct(name, description, price, image_url, type) {
     throw error;
   }
 }
+// export async function addItemToCart(plant_id, quantity, token) {
+//   try {
+//     const { data } = await axios.post(
+//       `api/cart`,
+//       { plant_id, quantity },
+//       { headers: { Authorization: `Bearer ${token}` } }
+//     );
+//     return data;
+//   } catch (error) {
+//     console.error("Error adding to cart");
+//   }
+// }
