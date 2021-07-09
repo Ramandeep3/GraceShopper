@@ -166,7 +166,7 @@ async function addInitialPlants() {
           "https://thumbs.dreamstime.com/b/rose-plant-miniature-red-flowers-red-plastic-pot-isolated-against-white-61525704.jpg",
       },
       {
-        name: "oranges",
+        name: "Oranges",
         description: "Orange, Citrus sinensis, is an evergreen tree",
         price: 35.99,
         quantity: 1,
@@ -176,7 +176,7 @@ async function addInitialPlants() {
           "https://thumbs.dreamstime.com/b/orange-tree-against-white-background-14184672.jpg",
       },
       {
-        name: "parlor palms",
+        name: "Parlor Palms",
         description: "Easy to grow",
         price: 19.99,
         quantity: 1,
@@ -195,6 +195,39 @@ async function addInitialPlants() {
         stock_qty: 30,
         imageURL:
           "https://images.pexels.com/photos/6803/light-rocks-pot-white.jpg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
+      },
+      {
+        name: "Fern",
+        description:
+          "Ferns are plants that do not have flowers. Some look like tiny bunches of grapes, some look like a little brown purse, and others like a dome.",
+        price: 19.99,
+        quantity: 1,
+        type: "non-flowering plant",
+        stock_qty: 30,
+        imageURL:
+          "https://images.pexels.com/photos/1055379/pexels-photo-1055379.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      },
+      {
+        name: "Japanese Maple",
+        description:
+          "Japanese maple plant can be grown as a small single-stemmed tree or large multiple stemmed shrub.",
+        price: 19.99,
+        quantity: 1,
+        type: "tree",
+        stock_qty: 30,
+        imageURL:
+          "https://images.pexels.com/photos/5745828/pexels-photo-5745828.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      },
+      {
+        name: "Caladium",
+        description:
+          "This plant’s arrowhead-shaped leaves are readily found in shades of red, pink, and white.",
+        price: 12.99,
+        quantity: 1,
+        type: "outdoor plant",
+        stock_qty: 50,
+        imageURL:
+          "https://images.pexels.com/photos/1403404/pexels-photo-1403404.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
       },
     ];
     const plants = await Promise.all(plantsToCreate.map(createPlants));

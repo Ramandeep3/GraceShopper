@@ -43,7 +43,7 @@ export async function addToUserCart(body) {
   try {
     const {
       data: [rows],
-    } = await axios.post("/api/user/cart", body);
+    } = await axios.post("/api/cart/user-cart", body);
     console.log("SRC API CALL - addToUserCart/Data", rows);
     return rows;
   } catch (error) {
@@ -79,6 +79,17 @@ export async function createProduct(name, description, price, image_url, type) {
       type,
     });
     alert("Plants successfully added");
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getPlantByName(name) {
+  console.log("IN srcAPI", name);
+  try {
+    const { data } = await axios.get(`/api/plants/${name}`);
+    console.log(data);
     return data;
   } catch (error) {
     throw error;
