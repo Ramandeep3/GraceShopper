@@ -36,3 +36,30 @@ export async function registerUser(body) {
     throw error;
   }
 }
+
+export async function createProduct(name, description, price, image_url, type) {
+  try {
+    const { data } = await axios.post("/api/plants", {
+      name,
+      description,
+      price,
+      image_url,
+      type,
+    });
+    alert("Plants successfully added");
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getPlantByName(name) {
+  console.log("IN srcAPI", name);
+  try {
+    const { data } = await axios.get(`/api/plants/${name}`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

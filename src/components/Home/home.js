@@ -1,6 +1,7 @@
 import React from "react";
 import TopCards from "./topCards";
 import About from "./about";
+
 import "./home.css";
 
 const Home = () => {
@@ -10,7 +11,7 @@ const Home = () => {
         <About />
       </div>
       <br />
-      <h1>Top Picks This Week!</h1>
+      <h1>Random Picks!</h1>
       <div className="hot-picks">
         <TopCards />
       </div>

@@ -5,8 +5,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const ShopPageNav = () => {
-  const [title, setTitle] = useState("Shop All");
+const ShopPageNav = ({ title, setTitle }) => {
   const [
     description,
     setDescription,

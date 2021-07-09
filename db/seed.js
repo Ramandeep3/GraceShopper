@@ -17,12 +17,26 @@ const {
   updatePlant,
 } = require("./plants");
 
+const {
+  addToCart,
+  getCartByUserId,
+  deleteFromCart,
+  updateItemQuantity,
+} = require("./cart");
+
+// const {createOrder,getAllOrders,
+//   getOrderById,
+//   addCartToUserOrders}=require("./orders")
+
 async function buildTables() {
   try {
     // drop tables in correct order
     console.log("Starting to drop tables...");
     client.query(`
+    
+    
       DROP TABLE IF EXISTS orders;
+      DROP TABLE IF EXISTS cart;
       DROP TABLE IF EXISTS plants;
       DROP TABLE IF EXISTS users;
     `);
@@ -45,6 +59,7 @@ async function buildTables() {
           "isAdmin" BOOLEAN DEFAULT false,
           "isUser" BOOLEAN DEFAULT false
        );
+
        CREATE TABLE plants(
            id SERIAL PRIMARY KEY,
            name VARCHAR(30) UNIQUE,
@@ -52,20 +67,28 @@ async function buildTables() {
            price MONEY,
            quantity INTEGER,
            type VARCHAR(255) NOT NULL,
-           stock_qty INTEGER DEFAULT 0,
-           "imageURL" VARCHAR(255)
-           
-
+           stock_qty INTEGER DEFAULT 1,
+           "imageURL" VARCHAR(255) UNIQUE
        );
+       
        CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
         "productId" INTEGER REFERENCES plants(id),
-        count INTEGER NOT NULL, 
+        quantity INTEGER NOT NULL, 
+        price MONEY,
         "orderStatus" VARCHAR(255) NOT NULL,
         "orderCreated" DATE NOT NULL 
-     );
- 
+       );
+       
+       CREATE TABLE cart(
+        id SERIAL PRIMARY KEY,
+        "userId" INTEGER REFERENCES users(id),
+        "productId" INTEGER REFERENCES plants(id),
+        price MONEY,
+        quantity INTEGER,
+        "plantUrl" VARCHAR(255) REFERENCES plants("imageURL")
+        );
     `);
     console.log("Finished building tables!");
   } catch (error) {
@@ -109,6 +132,16 @@ async function addInitialUsers() {
         state: "TN",
         zip: "12345",
         isAdmin: false,
+      },
+      {
+        email: "The.MF.Greatest@gmail.com",
+        name: "The Greatest",
+        password: "elGreat",
+        username: "TheGreatestMF",
+        address: "9999 Throne Room",
+        city: "Atlantis",
+        state: "Earth",
+        zip: "98765",
       },
     ];
     const users = await Promise.all(usersToCreate.map(createUser));
@@ -206,6 +239,41 @@ async function addInitialPlants() {
     throw error;
   }
 }
+// async function createInitialOrders(){
+
+//   try{
+//     console.log("starting to create orders....")
+//     const ordersToCreate=[
+//       {
+//         date_ordered: "06/01/2021",
+//         price: 25.99
+        
+        
+//       },
+//       {
+//         date_ordered: "07/01/2021",
+//         price: 35.99
+//       },
+//       {
+//         date_ordered: "07/02/2021",
+//         price: 19.99
+        
+//       }
+//       ,{
+//         date_ordered: "06/28/2021",
+//         price: 42.99
+        
+      
+//       }
+//     ];
+//     const theOrders = await Promise.all(
+//       ordersToCreate.map((order) => createOrder(order))
+//     );
+
+//     console.log("orders Created: ", theOrders);
+//     console.log("Finished creating links.");
+//   }catch{}
+// }
 
 async function rebuildDB() {
   try {
@@ -216,20 +284,23 @@ async function rebuildDB() {
     console.log("Int users added");
     await addInitialPlants();
     console.log("plants added");
-  } catch (error) {
-    console.log("Error during rebuildDB");
-    throw error;
+
+   
+
+
+    // await createInitialCarts();
+    // console.log("cart is created")
+
+//     await createInitialOrders();
+//     console.log("orders created")
+} catch (error) {
+       console.log("Error during rebuildDB");
+   throw error;
   }
-}
+ }
 
 async function testDB() {
   try {
-    console.log("starting to build tables in rebuildDB");
-    // await buildTables();
-    console.log("finished build of tables in rebuildDB");
-    console.log("starting to add initial users in rebuildDB");
-    await addInitialUsers();
-    console.log("finished adding initial users in rebuildDB");
     console.log("calling getAllUsers");
     const users = await getAllUsers();
     console.log("get All users Result:", users);
@@ -240,7 +311,7 @@ async function testDB() {
     const singleUser = await getUserById(1);
     console.log("Result for user by id:", singleUser);
     console.log("Calling update user");
-    const updatedUserData = await updateUser(users[0].id, {
+    const updatedUserData = await updateUser(users[1].id, {
       username: "Jfitz447",
     });
     console.log("Results for updatedUserData:", updatedUserData);
@@ -268,6 +339,44 @@ async function testDB() {
     console.log("Calling getPlantById with 1");
     const singlePlant = await getPlantById(1);
     console.log("Result:", singlePlant);
+
+    console.log("Calling getUserByUsername with 3");
+    const usernameGreatest = "TheGreatestMF";
+    const greatestUser = await getUserByUsername(usernameGreatest);
+    console.log("greatest User", greatestUser);
+    const greatestId = greatestUser.id;
+
+    console.log("Calling First addToCart");
+    const userCartOne = await addToCart(
+      usernameGreatest,
+      plants[1].id,
+      plants[1].price,
+      3,
+      plants[1].imageURL
+    );
+    console.log("Result of First Cart Test:", userCartOne);
+
+    console.log("Calling Second addToCart");
+    const userCartTwo = await addToCart(
+      usernameGreatest,
+      plants[2].id,
+      plants[2].price,
+      5,
+      plants[2].imageURL
+    );
+    console.log("Result of Second Cart Test:", userCartTwo);
+
+    const userCart = await getCartByUserId(greatestId);
+    console.log("Result of User Initial Cart:", userCart);
+    const plantOneId = plants[1].id;
+    console.log("Plant One Id", plantOneId);
+    await deleteFromCart(greatestId, plantOneId);
+    const userCart2 = await getCartByUserId(greatestId);
+    console.log("Result of Deleted Item 1 from Cart:", userCart2);
+    const plantTwoId = plants[2].id;
+    await updateItemQuantity(25, plantTwoId, greatestId);
+    const userCart3 = await getCartByUserId(greatestId);
+    console.log("Result of Updated Item from Cart:", userCart3);
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;

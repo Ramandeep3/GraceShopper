@@ -15,7 +15,9 @@ const LoginModal = () => {
   const handleShow = () => setShow(true);
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState(
+    "Something went horribly wrong"
+  );
 
   const loginSubmit = async () => {
     return await loginUser({ username, password })
@@ -25,11 +27,13 @@ const LoginModal = () => {
           localStorage.setItem("token", JSON.stringify(token));
         } else {
           setErrorMessage("Something went horribly wrong");
+          window.alert(errorMessage);
         }
       })
       .catch((error) => {
         console.log(error);
         setErrorMessage("Something went horribly wrong");
+        window.alert(errorMessage);
       });
   };
 
@@ -80,7 +84,6 @@ const LoginModal = () => {
                   onInput={(event) => {
                     setPassword(event.target.value);
                   }}
-                  z
                 />
               </Form.Group>
               <Form.Group
