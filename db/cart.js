@@ -23,28 +23,21 @@ async function addToCart(username, productId, price, quantity, plantUrl) {
 
   const userId = user.id;
 
-  const cart = await getCartByUserId(userId);
-
-  if (!cart) {
-    await createUserCart(userId, productId, price, quantity, plantUrl);
-  } else {
-    try {
-      const {
-        rows: [orders],
-      } = await client.query(
-        `
+  try {
+    const {
+      rows: [cart],
+    } = await client.query(
+      `
         INSERT INTO cart ("userId", "productId", price, quantity, "plantUrl")
         VALUES($1, $2, $3, $4, $5)
         RETURNING *;
           `,
-        [userId, productId, price, quantity, plantUrl]
-      );
-      console.log("Inside addToCart/orders", orders);
+      [userId, productId, price, quantity, plantUrl]
+    );
 
-      return orders;
-    } catch (error) {
-      throw error;
-    }
+    return cart;
+  } catch (error) {
+    throw error;
   }
 }
 

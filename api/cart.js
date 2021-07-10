@@ -24,15 +24,9 @@ cartRouter.get("/:username", async (req, res, next) => {
 });
 
 cartRouter.post("/user-cart", async (req, res, next) => {
-  const { username, productId, price, quantity, plantUrl } = req.body;
-  const userCart = await addToCart({
-    username,
-    productId,
-    price,
-    quantity,
-    plantUrl,
-  });
-  console.log("API CALL - Add To User Cart:", userCart);
+  const { username, id, price, quantity, imageURL } = req.body;
+  const userCart = await addToCart(username, id, price, quantity, imageURL);
+  res.send(userCart);
 });
 
 module.exports = cartRouter;
