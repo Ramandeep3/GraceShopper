@@ -40,22 +40,24 @@ plantsRouter.patch("/:id", async (req, res, next) => {
   }
 });
 
-// plantsRouter.post("/", async (req, res, next) => {
-//   const { name, description, price, quantity, type } = req.body;
-//   const newPlant = {};
-//   try {
-//     (newPlant.name = name),
-//       (newPlant.description = description),
-//       (newPlant.quantity = quantity),
-//       (newPlant.price = price),
-//       (newPlant.type = type);
+plantsRouter.post("/", async (req, res, next) => {
+  const { name, description, price, imgURL, type } = req.body;
+  // const newPlant = {};
+  try {
+    // (newPlant.name = name),
+    //   (newPlant.description = description),
+    //   (newPlant.imgURL = imgURL),
+    //   (newPlant.price = price),
+    //   (newPlant.type = type);
 
-//     const theNewPlant = await createPlants(newPlant);
-//     res.send(theNewPlant);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+    const theNewPlant = await createPlants(req.body);
+    console.log(req.body)
+    console.log(newPlant)
+    res.send(theNewPlant);
+  } catch (error) {
+    next(error);
+  }
+});
 
 // plantsRouter.delete('/:id',async(req,res,next)=>{
 //     const plantId=req.params.id

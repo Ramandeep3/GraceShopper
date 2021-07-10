@@ -14,11 +14,11 @@ async function createPlants({
       rows: [plants],
     } = await client.query(
       `
-    INSERT INTO plants(name,description,price,quantity,type,"imageURL")
+    INSERT INTO plants(name,description,price,type,"imageURL")
     VALUES($1, $2, $3, $4, $5,$6)
     RETURNING *;
      `,
-      [name, description, price, quantity, type, imageURL]
+      [name, description, price, type, imageURL]
     );
 
     console.log(plants, "my plants");

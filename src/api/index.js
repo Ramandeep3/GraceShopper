@@ -69,16 +69,21 @@ export async function getUserInfo() {
   }
 }
 
-export async function createProduct(name, description, price, image_url, type) {
+export async function createProduct(name, description, price,type, image_url) {
+ 
+
+ console.log(name, description, price, type,image_url)
   try {
     const { data } = await axios.post("/api/plants", {
       name,
       description,
       price,
-      image_url,
-      type,
+    type,
+    image_url,
     });
+    
     alert("Plants successfully added");
+    console.log(data)
     return data;
   } catch (error) {
     throw error;

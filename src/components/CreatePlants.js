@@ -6,12 +6,12 @@ const CreateProduct = () => {
   const [name, setName] = useState(null);
   const [description, setDescription] = useState(null);
   const [price, setPrice] = useState(null);
-  const [image, setImage] = useState(null);
+  const [image_url, setImage] = useState(null);
   const [type, setType] = useState(null);
   async function handleSubmit(event) {
     try {
       event.preventDefault();
-      await createProduct(name, description, price, image, type);
+      await createProduct(name, description, price, type,image_url,);
     } catch (error) {
       console.error(error);
     }
