@@ -6,10 +6,14 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
-import { getPlantByName } from "../../api";
+import { addToUserCart, getPlantByName } from "../../api";
 
-const ProductCard = ({ id, name, imageURL, price, description }) => {
+const ProductCard = (props) => {
+  const { id, name, imageURL, price, description } = props;
+  const username = JSON.parse(localStorage.getItem("username"));
+
   const [count, setCount] = useState(1);
+  const quantity = count;
 
   const minusButtonClick = (event) => {
     event.preventDefault();
@@ -20,8 +24,15 @@ const ProductCard = ({ id, name, imageURL, price, description }) => {
     setCount(count + 1);
   };
   const addToCart = async () => {
-    const plantToAdd = await getPlantByName(name);
-    console.log(plantToAdd, "in src/ShopPage/productCard/addToPlant");
+    const plantAddedToCart = await addToUserCart({
+      username,
+      id,
+      price,
+      quantity,
+      imageURL,
+    });
+    console.log("plantAddedToCart", plantAddedToCart);
+
     // JSON.stringify(localStorage.setItem("cartItem", plantToAdd));
   };
 

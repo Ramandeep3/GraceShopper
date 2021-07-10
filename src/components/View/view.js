@@ -17,10 +17,25 @@ import ShopPage from "../ShopPage/shopPage";
 import AdminNav from "../Header/AdminHeader/adminHeader";
 import createPlants from "../CreatePlants";
 import Cart from "../Header/CartModal/Cart";
+import { getUserCart, getUserInfo } from "../../api";
 
 const View = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState();
+  const [cart, setCart] = useState([]);
+  const username = JSON.parse(localStorage.getItem("username"));
+
+  useEffect(() => {
+    (async () => {
+      if (username) {
+        const userCart = await getUserCart(username);
+        console.log("HEADER USE EFFECT USERCART", userCart);
+        setCart(userCart);
+      }
+    })();
+  }, []);
+
+  console.log("AFTER USE EFFECT", cart);
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("token"))) {
@@ -30,14 +45,6 @@ const View = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const userinfo = await getUserInfo();
-  //     setUser(userinfo);
-  //     console.log("USER INFO", user);
-  //   })();
-  // }, [user]);
-
   return (
     <div className="body">
       <header className="header">
@@ -46,13 +53,17 @@ const View = () => {
           setAuthenticated={setAuthenticated}
           user={user}
           setUser={setUser}
+          cart={cart}
+          setCart={setCart}
         />
         <AdminNav />
       </header>
       <main>
         <Route path={HOME_ROUTE} component={Home} />
         <Route path={REGISTER_ROUTE} component={Register} />
-        <Route path={CART_ROUTE} component={Cart} />
+        <Route path={CART_ROUTE}>
+          <Cart cart={cart} setCart={setCart} />
+        </Route>
         <Route path={LEARN_ROUTE} component={Learn} />
         <Route path={NEW_PLANT_ROUTE} component={createPlants} />
         <Route path={SHOP_ROUTE} component={ShopPage} />
