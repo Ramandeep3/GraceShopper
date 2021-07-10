@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Table from "react-bootstrap/Table";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -8,7 +8,18 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
-const ModalContents = ({ cart, setCart }) => {
+const CartTable = ({ cart, setCart }) => {
+  const [quantity, setQuantity] = useState(cart.quantity);
+
+  const minusButtonClick = (event) => {
+    event.preventDefault();
+    setQuantity(quantity - 1);
+  };
+  const addButtonClick = (event) => {
+    event.preventDefault();
+    setQuantity(quantity + 1);
+  };
+
   console.log(cart);
   return (
     <Table striped bordered hover variant="dark">
@@ -19,6 +30,7 @@ const ModalContents = ({ cart, setCart }) => {
           <th>Price</th>
           <th>Quantity</th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +40,7 @@ const ModalContents = ({ cart, setCart }) => {
               <td>
                 <img
                   src={cartItem.plantUrl}
-                  alt="img"
+                  alt="Img"
                   style={{ maxWidth: "75px", maxHeight: "75px" }}
                 ></img>
               </td>
@@ -37,17 +49,28 @@ const ModalContents = ({ cart, setCart }) => {
               <td>
                 {" "}
                 <InputGroup className="mb-3">
-                  <Button variant="outline-secondary">
+                  <Button
+                    onClick={minusButtonClick}
+                    variant="outline-secondary"
+                  >
                     <RemoveIcon fontSize="small" />
                   </Button>
                   <Form.Control
-                    aria-label="Quantity"
+                    style={{ textAlign: "center" }}
+                    type="value"
                     value={cartItem.quantity}
-                  />
-                  <Button variant="outline-secondary">
+                    aria-label="Quantity"
+                    onInput={(event) => {
+                      setQuantity(event.target.value);
+                    }}
+                  ></Form.Control>
+                  <Button onClick={addButtonClick} variant="outline-secondary">
                     <AddIcon fontSize="small" />
                   </Button>
                 </InputGroup>
+              </td>
+              <td>
+                <Button variant="secondary">Update</Button>
               </td>
               <td>
                 <DeleteForeverIcon />
@@ -59,4 +82,5 @@ const ModalContents = ({ cart, setCart }) => {
     </Table>
   );
 };
-export default ModalContents;
+
+export default CartTable;

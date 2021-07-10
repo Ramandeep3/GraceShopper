@@ -47,7 +47,7 @@ const CartModal = ({ cart, setCart }) => {
               <Button variant="danger" onClick={handleClose}>
                 Close
               </Button>
-              <Link to={CART_ROUTE} cart={cart} setCart={setCart}>
+              <Link to={CART_ROUTE}>
                 <Button
                   style={{ marginLeft: "5px" }}
                   variant="success"

@@ -23,6 +23,7 @@ import Cart from "../Header/CartModal/Cart";
 import Plants from"../Plants/plants"
 import Orders from "../Orders/Allorders"
 import { getUserCart, getUserInfo } from "../../api";
+import Footer from "../../Footer/footer";
 
 const View = () => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -32,23 +33,17 @@ const View = () => {
 
   useEffect(() => {
     (async () => {
+      console.log("start of use Effect");
       if (username) {
         const userCart = await getUserCart(username);
-        console.log("HEADER USE EFFECT USERCART", userCart);
-        setCart(userCart);
+        if (userCart) {
+          console.log("HEADER USE EFFECT USERCART", userCart);
+          setCart(userCart);
+        }
       }
     })();
   }, []);
-
   console.log("AFTER USE EFFECT", cart);
-
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem("token"))) {
-      setAuthenticated(true);
-    } else {
-      setAuthenticated(false);
-    }
-  }, []);
 
   return (
     <div className="body">
@@ -75,6 +70,9 @@ const View = () => {
         <Route path={SHOP_ROUTE} component={ShopPage} />
         <Route path={ORDER_ROUTE} component={Orders} />
       </main>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 };
