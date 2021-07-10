@@ -82,22 +82,23 @@ async function updatePlant(plantId, fields = {}) {
     throw error;
   }
 }
-async function getPlantByName(name) {
-  try {
-    const {
-      rows: [plant],
-    } = await client.query(
-      `
-        SELECT * FROM plants 
-        WHERE name =($1);
-        `,
-      [name]
-    );
-    return plant;
-  } catch (error) {
-    throw error;
-  }
-}
+// async function getPlantByName(name) {
+//   try {
+//     const {
+//       rows: [plant],
+//     } = await client.query(
+//       `
+//         SELECT * FROM plants
+//         WHERE name =($1);
+//         `,
+//       [name]
+//     );
+//     return plant;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
 async function getPlantByType(type) {
   try {
     const { rows } = await client.query(
@@ -110,6 +111,26 @@ async function getPlantByType(type) {
     );
     return rows;
   } catch (error) {
+    throw error;
+  }
+}
+
+async function getPlantByName(name) {
+  try {
+    const {
+      rows: [plants],
+    } = await client.query(
+      `
+      SELECT *
+      FROM plants
+      WHERE name=$1;
+        `,
+      [name]
+    );
+    console.log("in plants DB", plants);
+    return plants;
+  } catch (error) {
+    console.error("could not get plant by name", error);
     throw error;
   }
 }

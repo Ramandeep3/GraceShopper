@@ -1,5 +1,5 @@
 import React from "react";
-import {addToUserCart} from "../../api";
+import {addItemToCart} from "../../api";
 const ProductCard = ({ index, product, cart }) => {
     console.log(product);
     const { name, description, price, image_url, in_stock } = product;
@@ -32,7 +32,7 @@ const ProductCard = ({ index, product, cart }) => {
         <h3 className="price">Price: ${price}</h3>
         <img
           className="addToCart"
-          src={AddtoCart}
+          src={""}
           alt="Add to cart"
           onClick={() => {
             in_stock ? handleAddtoCart() : alert("Item out of stock!");

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getAllPlants } from "../../../api";
+import { getAllPlants } from "../../api";
 import ProductCard from "./PlantsCard";
+import "./Plants.css";
 const Plants=({cart,setCart})=>{
     const [grabbedProducts, setGrabbedProducts] = useState();
     const getAllProducts = async () => {
         try {
-          const products = await getProducts();
+          const products = await getAllPlants();
           setGrabbedProducts(products);
         } catch (error) {
           console.error(error);
