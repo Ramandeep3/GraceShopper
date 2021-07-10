@@ -29,8 +29,10 @@ const View = () => {
     (async () => {
       if (username) {
         const userCart = await getUserCart(username);
-        console.log("HEADER USE EFFECT USERCART", userCart);
-        setCart(userCart);
+        if (userCart) {
+          console.log("HEADER USE EFFECT USERCART", userCart);
+          setCart(userCart);
+        }
       }
     })();
   }, []);

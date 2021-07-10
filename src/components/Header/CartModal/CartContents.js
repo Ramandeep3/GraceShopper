@@ -9,11 +9,11 @@ import AddIcon from "@material-ui/icons/Add";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const ModalContents = ({ cart, setCart }) => {
+  console.log(cart);
   return (
     <Table striped bordered hover variant="dark">
       <thead>
         <tr>
-          <th>#</th>
           <th></th>
           <th>Name</th>
           <th>Price</th>
@@ -22,27 +22,39 @@ const ModalContents = ({ cart, setCart }) => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>img</td>
-          <td>Product Name</td>
-          <td>Price</td>
-          <td>
-            {" "}
-            <InputGroup className="mb-3">
-              <Button variant="outline-secondary">
-                <RemoveIcon fontSize="small" />
-              </Button>
-              <Form.Control aria-label="Quantity" />
-              <Button variant="outline-secondary">
-                <AddIcon fontSize="small" />
-              </Button>
-            </InputGroup>
-          </td>
-          <td>
-            <DeleteForeverIcon />
-          </td>
-        </tr>
+        {cart.map((cartItem) => {
+          return (
+            <tr>
+              <td>
+                <img
+                  src={cartItem.plantUrl}
+                  alt="img"
+                  style={{ maxWidth: "75px", maxHeight: "75px" }}
+                ></img>
+              </td>
+              <td>{cartItem.name}</td>
+              <td>{cartItem.price}</td>
+              <td>
+                {" "}
+                <InputGroup className="mb-3">
+                  <Button variant="outline-secondary">
+                    <RemoveIcon fontSize="small" />
+                  </Button>
+                  <Form.Control
+                    aria-label="Quantity"
+                    value={cartItem.quantity}
+                  />
+                  <Button variant="outline-secondary">
+                    <AddIcon fontSize="small" />
+                  </Button>
+                </InputGroup>
+              </td>
+              <td>
+                <DeleteForeverIcon />
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </Table>
   );
