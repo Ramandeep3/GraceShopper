@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
+import React from "react";
+import CartTable from "./cartTable";
+import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
-import Form from "react-bootstrap/Form";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
 
 const Cart = ({ cart, setCart }) => {
-  return cart.map((cartItem) => {
-    <div>Hello World</div>;
-  });
+  return (
+    <>
+      <CartTable cart={cart} />
+      <Navbar bg="dark" variant="dark">
+        <Button style={{ marginLeft: "10px" }} variant="success">
+          Checkout
+        </Button>
+      </Navbar>
+    </>
+  );
 };
 
 export default Cart;
