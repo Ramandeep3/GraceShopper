@@ -336,6 +336,7 @@ async function testDB() {
 
     console.log("Calling getUserByUsername with 3");
     const usernameGreatest = "TheGreatestMF";
+    const userNameJeff = "JFitz447";
     const greatestUser = await getUserByUsername(usernameGreatest);
     const greatestId = greatestUser.id;
 
@@ -358,6 +359,15 @@ async function testDB() {
       plants[2].imageURL
     );
     console.log("Result of Second Cart Test:", userCartTwo);
+    console.log("Calling Second addToCart");
+    const userCartThree = await addToCart(
+      userNameJeff,
+      plants[2].id,
+      plants[2].price,
+      5,
+      plants[2].imageURL
+    );
+    console.log("Result of Second Cart Test:", userCartThree);
 
     const userCart = await getCartByUserId(greatestId);
     console.log("Result of User Initial Cart:", userCart);
