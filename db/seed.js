@@ -24,9 +24,9 @@ const {
   updateItemQuantity,
 } = require("./cart");
 
-// const {createOrder,getAllOrders,
-//   getOrderById,
-//   addCartToUserOrders}=require("./orders")
+const {createOrder,getAllOrders,
+  getOrderById,
+  addCartToUserOrders}=require("./orders")
 
 async function buildTables() {
   try {
@@ -238,39 +238,39 @@ async function addInitialPlants() {
     throw error;
   }
 }
-// async function createInitialOrders(){
+async function createInitialOrders(){
 
-//   try{
-//     console.log("starting to create orders....")
-//     const ordersToCreate=[
-//       {
-//         date_ordered: "06/01/2021",
-//         price: 25.99
+  try{
+    console.log("starting to create orders....")
+    const ordersToCreate=[
+      {
+        date_ordered: "06/01/2021",
+        price: 25.99
 
-//       },
-//       {
-//         date_ordered: "07/01/2021",
-//         price: 35.99
-//       },
-//       {
-//         date_ordered: "07/02/2021",
-//         price: 19.99
+      },
+      {
+        date_ordered: "07/01/2021",
+        price: 35.99
+      },
+      {
+        date_ordered: "07/02/2021",
+        price: 19.99
 
-//       }
-//       ,{
-//         date_ordered: "06/28/2021",
-//         price: 42.99
+      }
+      ,{
+        date_ordered: "06/28/2021",
+        price: 42.99
 
-//       }
-//     ];
-//     const theOrders = await Promise.all(
-//       ordersToCreate.map((order) => createOrder(order))
-//     );
+      }
+    ];
+    const theOrders = await Promise.all(
+      ordersToCreate.map((order) => createOrder(order))
+    );
 
-//     console.log("orders Created: ", theOrders);
-//     console.log("Finished creating links.");
-//   }catch{}
-// }
+    console.log("orders Created: ", theOrders);
+    console.log("Finished creating links.");
+  }catch{}
+}
 
 async function rebuildDB() {
   try {

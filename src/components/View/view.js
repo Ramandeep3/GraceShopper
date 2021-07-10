@@ -20,6 +20,8 @@ import ShopPage from "../ShopPage/shopPage";
 import AdminNav from "../Header/AdminHeader/adminHeader";
 import createPlants from "../CreatePlants";
 import Cart from "../Header/CartModal/Cart";
+import Plants from"../Plants/plants"
+import Orders from "../Orders/Allorders"
 import { getUserCart, getUserInfo } from "../../api";
 
 const View = () => {

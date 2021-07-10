@@ -20,20 +20,22 @@ const ProductCard = ({ index, product, cart }) => {
       alert(`${name} added to cart!`);
     };
   
+console.log(`${image_url}`,"imageurl")
+
     return (
       <div className="product">
         <img
           className="productImg"
           src={image_url}
-          
+          alt="image not found"
         ></img>
         <h1 className="name">{name}</h1>
         <p className="description">Description: {description}</p>
-        <h3 className="price">Price: ${price}</h3>
+        <h3 className="price">Price: {price}</h3>
         <img
           className="addToCart"
-          src={""}
-          alt="Add to cart"
+          // src={`${image_url}`}
+          // alt="Add to cart"
           onClick={() => {
             in_stock ? handleAddtoCart() : alert("Item out of stock!");
           }}

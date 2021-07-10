@@ -27,6 +27,7 @@ return (
               index={index}
               product={product}
               cart={cart}
+              // image_url={"image_url"}
             />
           );
         })}

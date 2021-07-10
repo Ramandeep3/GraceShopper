@@ -3,7 +3,6 @@ async function createPlants({
   name,
   description,
   price,
-  quantity,
   type,
   imageURL,
 }) {
@@ -15,7 +14,7 @@ async function createPlants({
     } = await client.query(
       `
     INSERT INTO plants(name,description,price,type,"imageURL")
-    VALUES($1, $2, $3, $4, $5,$6)
+    VALUES($1, $2, $3, $4, $5)
     RETURNING *;
      `,
       [name, description, price, type, imageURL]
