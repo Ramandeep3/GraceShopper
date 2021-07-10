@@ -8,7 +8,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
-const ModalContents = () => {
+const ModalContents = ({ cart, setCart }) => {
   return (
     <Table striped bordered hover variant="dark">
       <thead>

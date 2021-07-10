@@ -8,8 +8,11 @@ import { Link } from "react-router-dom";
 import "./cartModal.css";
 import ModalContents from "./CartContents";
 import { CART_ROUTE } from "../../../constants";
+import Cart from "./Cart";
 
 const CartModal = ({ cart, setCart }) => {
+  // console.log(cart);
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -38,13 +41,13 @@ const CartModal = ({ cart, setCart }) => {
           }}
         >
           {/* Map through Cart state to displat */}
-          <ModalContents cart={cart} />
+          <ModalContents cart={cart} setCart={setCart} />
           <Form className="CartModal" onSubmit={onFormSubmit}>
             <div style={{ float: "right" }}>
               <Button variant="danger" onClick={handleClose}>
                 Close
               </Button>
-              <Link to={CART_ROUTE}>
+              <Link to={CART_ROUTE} cart={cart} setCart={setCart}>
                 <Button
                   style={{ marginLeft: "5px" }}
                   variant="success"

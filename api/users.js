@@ -136,7 +136,7 @@ usersRouter.patch("/user/:id", requireUser, async (req, res, next) => {
   }
 });
 
-usersRouter.get("/me", requireUser, async (req, res, next) => {
+usersRouter.get("/me", async (req, res, next) => {
   try {
     res.send(req.user);
   } catch (error) {

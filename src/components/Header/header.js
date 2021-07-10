@@ -19,22 +19,15 @@ import {
   INDOOR_ROUTE,
   OUTDOOR_ROUTE,
 } from "../../constants";
-import { getUserCart } from "../../api";
 
-const Header = ({ authenticated, setAuthenticated, user, setUser }) => {
-  const [cart, setCart] = useState([]);
-  const username = JSON.parse(localStorage.getItem("username"));
-
-  useEffect(() => {
-    (async () => {
-      const userCart = await getUserCart(username);
-      console.log("HEADER USE EFFECT USERCART", userCart);
-      setCart(userCart);
-    })();
-  }, []);
-
-  console.log("AFTER USE EFFECT", cart);
-
+const Header = ({
+  authenticated,
+  setAuthenticated,
+  user,
+  setUser,
+  cart,
+  setCart,
+}) => {
   return (
     <div>
       <Navbar className="header-content" bg="dark" variant="dark" expand="lg">
