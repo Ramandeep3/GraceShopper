@@ -157,6 +157,11 @@ const Register = () => {
         >
           Submit
         </Button>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
       </Form>
     </div>
   );
