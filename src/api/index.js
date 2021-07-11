@@ -74,8 +74,8 @@ export async function createProduct(name, description, price,type, image_url) {
       name,
       description,
       price,
-    type,
-    image_url,
+      type,
+      image_url,
     });
     
     alert("Plants successfully added");
@@ -109,25 +109,34 @@ export async function getPlantByName(name) {
   }
 }
 
-export async function getAllOrders() {
-  const { data } = await axios.get("api/order/all");
-  const orders = [];
-  data.forEach((element, index) => {
-    if (orders.some((order) => order.id === element.id)) {
-      const orderIndx = orders.findIndex((e) => e.id === element.id);
-      orders[orderIndx].products.push(element);
-    } else {
-      orders.push({
-        id: element.id,
-        status: element.status,
-        products: [{ name: element.name, quantity: element
-          .quantity }],
-      });
-    }
-  });
-  return orders;
+export async function addOrder(total_price, status) {
+  try {
+    const { data } = await axios.post("/api/orders", {
+      total_price,
+      status,
+    });
+    return data;
+  } catch (err) {
+    throw err;
+  }
 }
-export async function updateOrderStatus(order_id, status) {
-  const updatedOrder = await axios.patch(`/api/order/${order_id}`, { status });
+
+export async function getAllOrders() {
+  try{
+  const { data } = await axios.get("api/orders");
+  return data;
+  }catch(error){
+    throw error
+  }
+  
+  
+}
+export async function updateOrderStatus(id, status) {
+ try{ 
+   const updatedOrder = await axios.patch(`/api/orders/${id}/status`, {status: status });
+
   return updatedOrder;
+}catch(error){
+  throw error;
+}
 }

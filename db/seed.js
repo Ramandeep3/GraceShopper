@@ -24,9 +24,7 @@ const {
   updateItemQuantity,
 } = require("./cart");
 
-const {createOrder,getAllOrders,
-  getOrderById,
-  addCartToUserOrders}=require("./orders")
+const {createOrder,getAllOrders}=require("./orders")
 
 async function buildTables() {
   try {
@@ -285,8 +283,8 @@ async function rebuildDB() {
     // await createInitialCarts();
     // console.log("cart is created")
 
-    //     await createInitialOrders();
-    //     console.log("orders created")
+        await createInitialOrders();
+        console.log("orders created")
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
@@ -380,6 +378,16 @@ async function testDB() {
     await updateItemQuantity(25, plantTwoId, greatestId);
     const userCart3 = await getCartByUserId(greatestId);
     console.log("Result of Updated Item from Cart:", userCart3);
+
+    console.log("Calling createOrder")
+    const userOrder=await createOrder(2);
+    console.log("Results:",userOrder);
+
+
+    console.log("Calling getAllorders");
+    const theOrders = await getAllOrders();
+    console.log(theOrders);
+
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;

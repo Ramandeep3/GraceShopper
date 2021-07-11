@@ -2,7 +2,7 @@
 const { client } = require("./client");
 
 
- async function createOrder({date_ordered,price}) {
+ async function createOrder({date_ordered,price,status}) {
     
      try {
          
@@ -11,11 +11,11 @@ const { client } = require("./client");
      } =
      await client.query(
         `       
-        INSERT INTO orders(date_ordered,price)
-       VALUES($1, $2)
+        INSERT INTO orders(date_ordered,price,status)
+       VALUES($1, $2,$3)
          RETURNING *;
        `,
-       [date_ordered,price]
+       [date_ordered,price,status]
      );
      return order;
      } catch (error) {
@@ -52,7 +52,7 @@ const { client } = require("./client");
 const orders = await Promise.all(
     orderId.map((order) => getOrderById(order.id))
   );
-      return order;
+      return orders;
     } catch (error) {
       throw error;
     }
@@ -76,6 +76,25 @@ const orders = await Promise.all(
       throw error;
     }
   }
+  const updateStatusOfOrder = async (orderId, status) => {
+    try {
+      const {
+        rows: [orders],
+      } = await client.query(
+        `
+        UPDATE orders
+        SET status=$2
+        WHERE id=$1
+        RETURNING *;
+        `,
+        [orderId, status]
+      );
+  
+      return orders;
+    } catch (error) {
+      throw error;
+    }
+  };
 
   const destroyOrder = async (id) => {
     try {
@@ -107,5 +126,6 @@ createOrder,
 getAllOrders,
 getOrderById,
 addCartToUserOrders,
+updateStatusOfOrder,
 destroyOrder
 }

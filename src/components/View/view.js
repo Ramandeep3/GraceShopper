@@ -20,7 +20,7 @@ import ShopPage from "../ShopPage/shopPage";
 import AdminNav from "../Header/AdminHeader/adminHeader";
 import createPlants from "../CreatePlants";
 import Cart from "../Header/CartModal/Cart";
-import Plants from"../Plants/plants"
+// import Plants from"../Plants/plants"
 import Orders from "../Orders/Allorders"
 import { getUserCart, getUserInfo } from "../../api";
 import Footer from "../../Footer/footer";
@@ -66,7 +66,7 @@ const View = () => {
         </Route>
         <Route path={LEARN_ROUTE} component={Learn} />
         <Route path={NEW_PLANT_ROUTE} component={createPlants} />
-        <Route path={PLANTS_ROUTE} component={Plants} />
+        {/* <Route path={PLANTS_ROUTE} component={Plants} /> */}
         <Route path={SHOP_ROUTE} component={ShopPage} />
         <Route path={ORDER_ROUTE} component={Orders} />
       </main>
