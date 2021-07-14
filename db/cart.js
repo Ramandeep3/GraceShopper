@@ -1,15 +1,22 @@
 const { client } = require("./client");
 const { getUserByUsername } = require("./users");
 
-async function createUserCart(userId, productId, price, quantity, plantUrl) {
+async function createUserCart(
+  userId,
+  productId,
+  productName,
+  price,
+  quantity,
+  plantUrl
+) {
   try {
     const { rows: cart } = await client.query(
       `
-            INSERT INTO cart ("userId", "productId", price, quantity, "plantUrl")
+            INSERT INTO cart ("userId", "productId", "productName", price, quantity, "plantUrl")
             VALUES($1, $2, $3, $4, $5)
             RETURNING *;
             `,
-      [userId, productId, price, quantity, plantUrl]
+      [userId, productId, productName, price, quantity, plantUrl]
     );
 
     return cart;
@@ -18,7 +25,14 @@ async function createUserCart(userId, productId, price, quantity, plantUrl) {
   }
 }
 
-async function addToCart(username, productId, price, quantity, plantUrl) {
+async function addToCart(
+  username,
+  productId,
+  productName,
+  price,
+  quantity,
+  plantUrl
+) {
   const user = await getUserByUsername(username);
 
   const userId = user.id;
@@ -28,11 +42,11 @@ async function addToCart(username, productId, price, quantity, plantUrl) {
       rows: [cart],
     } = await client.query(
       `
-        INSERT INTO cart ("userId", "productId", price, quantity, "plantUrl")
-        VALUES($1, $2, $3, $4, $5)
+        INSERT INTO cart ("userId", "productId", "productName", price, quantity, "plantUrl")
+        VALUES($1, $2, $3, $4, $5, $6)
         RETURNING *;
           `,
-      [userId, productId, price, quantity, plantUrl]
+      [userId, productId, productName, price, quantity, plantUrl]
     );
 
     return cart;

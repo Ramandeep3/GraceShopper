@@ -84,6 +84,7 @@ async function buildTables() {
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
         "productId" INTEGER REFERENCES plants(id),
+        "productName" VARCHAR(30) REFERENCES plants(name),
         price MONEY,
         quantity INTEGER,
         "plantUrl" VARCHAR(255) REFERENCES plants("imageURL")
@@ -338,34 +339,41 @@ async function testDB() {
     const usernameGreatest = "TheGreatestMF";
     const userNameJeff = "JFitz447";
     const greatestUser = await getUserByUsername(usernameGreatest);
+    console.log("Greatest User", greatestUser);
     const greatestId = greatestUser.id;
 
     console.log("Calling First addToCart");
+    const newPlant = await getAllPlants();
     const userCartOne = await addToCart(
       usernameGreatest,
-      plants[1].id,
-      plants[1].price,
+      newPlant[1].id,
+      newPlant[1].name,
+      newPlant[1].price,
       3,
-      plants[1].imageURL
+      newPlant[1].imageURL
     );
     console.log("Result of First Cart Test:", userCartOne);
 
     console.log("Calling Second addToCart");
     const userCartTwo = await addToCart(
       usernameGreatest,
-      plants[2].id,
-      plants[2].price,
+      newPlant[2].id,
+      newPlant[2].name,
+      newPlant[2].price,
       5,
-      plants[2].imageURL
+      newPlant[2].imageURL
     );
     console.log("Result of Second Cart Test:", userCartTwo);
-    console.log("Calling Second addToCart");
+    console.log("Calling Third addToCart");
+    console.log("Plant Array 2", newPlant[2]);
+
     const userCartThree = await addToCart(
       userNameJeff,
-      plants[2].id,
-      plants[2].price,
+      newPlant[2].id,
+      newPlant[2].price,
+      newPlant[2].name,
       5,
-      plants[2].imageURL
+      newPlant[2].imageURL
     );
     console.log("Result of Second Cart Test:", userCartThree);
 

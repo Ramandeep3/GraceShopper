@@ -32,7 +32,7 @@ const ModalContents = ({ cart, setCart }) => {
                   style={{ maxWidth: "75px", maxHeight: "75px" }}
                 ></img>
               </td>
-              <td>{cartItem.name}</td>
+              <td>{cartItem.productName}</td>
               <td>{cartItem.price}</td>
               <td>
                 {" "}
