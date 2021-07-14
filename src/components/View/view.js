@@ -4,6 +4,7 @@ import Home from "../Home/home";
 import Learn from "../Learn/learn";
 import "./view.css";
 import { Route } from "react-router-dom";
+
 import {
   HOME_ROUTE,
   REGISTER_ROUTE,
@@ -11,12 +12,16 @@ import {
   LEARN_ROUTE,
   NEW_PLANT_ROUTE,
   CART_ROUTE,
+  PLANTS_ROUTE,
+  ORDER_ROUTE
 } from "../../constants";
 import Register from "../Register/register";
 import ShopPage from "../ShopPage/shopPage";
 import AdminNav from "../Header/AdminHeader/adminHeader";
 import createPlants from "../CreatePlants";
 import Cart from "../Header/CartModal/Cart";
+// import Plants from"../Plants/plants"
+import Orders from "../Orders/Allorders"
 import { getUserCart, getUserInfo } from "../../api";
 import Footer from "../../Footer/footer";
 
@@ -61,7 +66,9 @@ const View = () => {
         </Route>
         <Route path={LEARN_ROUTE} component={Learn} />
         <Route path={NEW_PLANT_ROUTE} component={createPlants} />
+        {/* <Route path={PLANTS_ROUTE} component={Plants} /> */}
         <Route path={SHOP_ROUTE} component={ShopPage} />
+        <Route path={ORDER_ROUTE} component={Orders} />
       </main>
       <footer>
         <Footer />

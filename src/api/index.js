@@ -65,19 +65,36 @@ export async function getUserInfo() {
   }
 }
 
-export async function createProduct(name, description, price, image_url, type) {
+export async function createProduct(name, description, price,type, image_url) {
+ 
+
+ console.log(name, description, price, type,image_url)
   try {
     const { data } = await axios.post("/api/plants", {
       name,
       description,
       price,
-      image_url,
       type,
+      image_url,
     });
+    
     alert("Plants successfully added");
+    console.log(data)
     return data;
   } catch (error) {
     throw error;
+  }
+}
+export async function addItemToCart(plant_id, quantity, token) {
+  try {
+    const { data } = await axios.post(
+      `api/cart`,
+      { plant_id, quantity },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (error) {
+    console.error("Error adding to cart");
   }
 }
 
@@ -90,4 +107,36 @@ export async function getPlantByName(name) {
   } catch (error) {
     throw error;
   }
+}
+
+export async function addOrder(total_price, status) {
+  try {
+    const { data } = await axios.post("/api/orders", {
+      total_price,
+      status,
+    });
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getAllOrders() {
+  try{
+  const { data } = await axios.get("api/orders");
+  return data;
+  }catch(error){
+    throw error
+  }
+  
+  
+}
+export async function updateOrderStatus(id, status) {
+ try{ 
+   const updatedOrder = await axios.patch(`/api/orders/${id}/status`, {status: status });
+
+  return updatedOrder;
+}catch(error){
+  throw error;
+}
 }

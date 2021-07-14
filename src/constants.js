@@ -10,3 +10,5 @@ export const TREES_ROUTE = "/shop/trees";
 export const INDOOR_ROUTE = "/shop/indoor";
 export const OUTDOOR_ROUTE = "/shop/outdoor";
 export const NEW_PLANT_ROUTE = "/newplant";
+export const ORDER_ROUTE = "/orders";
+export const PLANTS_ROUTE = "/plants";

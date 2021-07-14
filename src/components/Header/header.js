@@ -18,6 +18,7 @@ import {
   TREES_ROUTE,
   INDOOR_ROUTE,
   OUTDOOR_ROUTE,
+ 
 } from "../../constants";
 
 const Header = ({
