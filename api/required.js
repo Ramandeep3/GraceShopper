@@ -13,7 +13,7 @@ function requireAdmin(req, res, next) {
   if (!req.isAdmin) {
     next({
       name: "MissingAdminError",
-      message: "You must be an Admin in to perform this action",
+      message: "You must be an Admin in to perform action",
     });
   }
 
